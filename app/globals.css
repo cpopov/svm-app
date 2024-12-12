@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 76, 30%, 97%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 0, 14%, 97%, 1;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent-success: 120, 41%, 47%;
+    --accent-warning: 2, 69%, 49%;
+    --accent-dark: 139, 78%, 14%;
+    --accent: 172, 89%, 33%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 0 0% 95%;
+    --card: 24 9.8% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 142.1 70.6% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0, 0%, 95%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-success: 120, 41%, 47%;
+    --accent-warning: 2, 69%, 49%;
+    --accent-dark: 139, 78%, 14%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 142.4 71.8% 29.2%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+/* @layer utilities {
+  .hover\:gradient:hover {
+    background: linear-gradient(90deg, #009694 0%, #65f53d 97.01%);
+  }
+} */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  section {
+    @apply md:mb-24 mb-14;
+  }
+  h1 {
+    @apply font-bold lg:leading-tight text-5xl md:text-6xl;
+  }
+  h2 {
+    @apply font-semibold text-4xl md:text-6xl;
+  }
+  h3 {
+    @apply font-semibold text-3xl md:text-5xl lg:leading-snug;
+  }
+  h4 {
+    @apply font-semibold text-xl sm:text-2xl md:text-3xl;
+  }
+  h5 {
+    @apply font-normal text-2xl md:text-3xl;
+  }
+  h6 {
+    @apply font-medium text-xl md:text-2xl;
+  }
+  p {
+    @apply text-base;
+  }
+}
+.custom-shadow {
+  /* box-shadow: 10px 10px rgba(0, 0, 0); */
+  box-shadow: 0px 0px 3px 3px rgb(0 0 0 / 0.1);
+  /* border: 2px solid black; */
+}
+
+.gradient {
+  background: linear-gradient(90deg, #009694 0%, #65f53d 97.01%);
+}
+.gradient-text {
+  background: linear-gradient(90deg, #009694 0%, #65f53d 97.01%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient-button {
+  background: linear-gradient(90deg, #009694 25%, #65f53d 75%);
+  background-size: 200% 200%;
+  background-position: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.gradient-button:hover {
+  background-position: center;
+  animation: gradientShift 0.3s ease-in-out forwards;
+}
+.outline-gradient {
+  background-position: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.outline-gradient:hover {
+  background: linear-gradient(90deg, #009694 0%, #65f53d 100%);
+  background-position: center;
+  animation: gradientShift 0.3s ease-in-out forwards;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: center;
+  }
+  100% {
+    background-position: left;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
