@@ -3,6 +3,10 @@ import { instanceOne, instanceTwo } from './axios'
 const http = instanceOne()
 const http2 = instanceTwo()
 
+// apiSignUpUser
+export const apiSignUpUser = data => http.post(`/users/register`, data)
+export const apiLogin = data => http.post(`/users/login`, data)
+
 export const getPlayersList = ({
   search,
   league,

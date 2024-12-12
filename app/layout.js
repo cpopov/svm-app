@@ -9,6 +9,7 @@ import {
 
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import { ReduxProviders } from '@/lib/redux/providers'
 import { Titillium_Web } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 
@@ -74,12 +75,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${titillium.className} bg-accent-dark text-[#333333]`}>
-        {/* <Navbar /> */}
-        <div className="bg-background">{children}</div>
-        {/* <Footer /> */}
-        <Toaster />
-      </body>
+      <ReduxProviders>
+        <body
+          className={`${titillium.className} bg-accent-dark text-[#333333]`}>
+          {/* <Navbar /> */}
+          <div className="bg-background">{children}</div>
+          {/* <Footer /> */}
+          <Toaster />
+        </body>
+      </ReduxProviders>
     </html>
   )
 }
