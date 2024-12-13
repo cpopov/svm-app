@@ -1,7 +1,8 @@
-import { instanceOne, instanceTwo } from './axios'
+import { instanceOne, instanceThree, instanceTwo } from './axios'
 
 const http = instanceOne()
 const http2 = instanceTwo()
+const http3 = instanceThree()
 
 // apiSignUpUser
 export const apiSignUpUser = data => http.post(`/users/register`, data)
@@ -52,7 +53,7 @@ export const getUserPortfolio = (
   )
 
 export const getSportFilters = ({ sport, item }) =>
-  http.get(`/markets/${sport}/${item}`)
+  http.get(`/market/${sport}/${item}`)
 
 export const getPlayerDetails = (sportId, playerId) =>
   http2.get(`/players/${sportId}/${playerId}`)
@@ -61,4 +62,4 @@ export const getPlayerStats = (sportId, playerId, period) =>
   http2.get(`/players/${sportId}/${playerId}/stats?period=${period}`)
 
 export const getPlayerPriceChart = (sportId, playerId, period) =>
-  http.get(`/tokens/${sportId}/${playerId}/prices`)
+  http3.get(`/market/${sportId}/${playerId}/prices`)
