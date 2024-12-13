@@ -24,18 +24,18 @@ export const getPlayersList = ({
  * @param address token address
  * @returns {Promise<axios.AxiosResponse<any>>}
  */
-export const getUserPortfolio = ({
-  address,
-  search,
-  league,
-  team,
-  country,
-  sort,
-  sport,
-  dir
-}) =>
+export const getUserPortfolio = (
+  { search, league, team, country, sort, sport, dir },
+  token
+) =>
   http.get(
-    `/portfolio/${address}?market=${sport}&search=${search}&country=${country}&league=${league}&team=${team}&sort=${sort}&dir=${dir}`
+    `/users/portfolio?market=${sport}&search=${search}&country=${country}&league=${league}&team=${team}&sort=${sort}&dir=${dir}`,
+    {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json'
+      }
+    }
   )
 
 export const getSportFilters = ({ sport, item }) =>

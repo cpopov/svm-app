@@ -6,27 +6,18 @@ function PortfolioBalance({ data, loading = false }) {
     <div className="container">
       <div className="md:px-10 p-5 rounded-md grid sm:grid-cols-2 md:flex md:flex-wrap md:justify-between gap-4 my-5 md:my-10 border shadow-md bg-white">
         <div>
-          <p className="font-bold text-accent-dark">PLAYERS</p>
+          <p className="font-bold text-accent-dark uppercase">value</p>
           <p className="text-3xl font-semibold gradient-text">
-            {data?.tokens?.length ? data?.tokens?.length : 0}
-          </p>
-        </div>
-        <div>
-          <p className="font-bold text-accent-dark">USDC</p>
-          <p className="text-3xl font-semibold gradient-text">
-            ${' '}
-            {data?.usdcBalance ? (
-              String(data?.usdcBalance).includes('.') ? (
+            {data?.value ? (
+              String(data?.value).includes('.') ? (
                 <>
-                  {Number(
-                    String(data?.usdcBalance).split('.')[0]
-                  ).toLocaleString()}
+                  {Number(String(data?.value).split('.')[0]).toLocaleString()}
                   <span className="text-xl">
-                    .{String(data?.usdcBalance).split('.')[1].slice(0, 2)}
+                    .{String(data?.value).split('.')[1].slice(0, 2)}
                   </span>
                 </>
               ) : (
-                data?.usdcBalance
+                data?.value
               )
             ) : (
               0
@@ -34,20 +25,38 @@ function PortfolioBalance({ data, loading = false }) {
           </p>
         </div>
         <div>
-          <p className="font-bold text-accent-dark">SVP</p>
+          <p className="font-bold text-accent-dark uppercase">profit</p>
           <p className="text-3xl font-semibold gradient-text">
-            {data?.svpBlance ? (
-              String(data?.svpBlance).includes('.') ? (
+            ${' '}
+            {data?.profit ? (
+              String(data?.profit).includes('.') ? (
                 <>
-                  {Number(
-                    String(data?.svpBlance).split('.')[0]
-                  ).toLocaleString()}
+                  {Number(String(data?.profit).split('.')[0]).toLocaleString()}
                   <span className="text-xl">
-                    .{String(data?.svpBlance).split('.')[1].slice(0, 2)}
+                    .{String(data?.profit).split('.')[1].slice(0, 2)}
                   </span>
                 </>
               ) : (
-                data?.svpBlance
+                data?.profit
+              )
+            ) : (
+              0
+            )}
+          </p>
+        </div>
+        <div>
+          <p className="font-bold text-accent-dark uppercase">payouts</p>
+          <p className="text-3xl font-semibold gradient-text">
+            {data?.payouts ? (
+              String(data?.payouts).includes('.') ? (
+                <>
+                  {Number(String(data?.payouts).split('.')[0]).toLocaleString()}
+                  <span className="text-xl">
+                    .{String(data?.payouts).split('.')[1].slice(0, 2)}
+                  </span>
+                </>
+              ) : (
+                data?.payouts
               )
             ) : (
               0
@@ -58,18 +67,16 @@ function PortfolioBalance({ data, loading = false }) {
         <div>
           <p className="font-bold text-accent-dark">SVC</p>
           <p className="text-3xl font-semibold gradient-text">
-            {data?.svcBalance ? (
-              String(data?.svcBalance).includes('.') ? (
+            {data?.balance ? (
+              String(data?.balance).includes('.') ? (
                 <>
-                  {Number(
-                    String(data?.svcBalance).split('.')[0]
-                  ).toLocaleString()}
+                  {Number(String(data?.balance).split('.')[0]).toLocaleString()}
                   <span className="text-xl">
-                    .{String(data?.svcBalance).split('.')[1].slice(0, 2)}
+                    .{String(data?.balance).split('.')[1].slice(0, 2)}
                   </span>
                 </>
               ) : (
-                data?.svcBalance
+                data?.balance
               )
             ) : (
               0

@@ -10,6 +10,7 @@ import PortfolioTable from '@/components/PortfolioTable'
 import SearchBox from '@/components/SearchBox'
 import SportFilter from '@/components/ui/SportFilter'
 import { getUserPortfolio } from '@/actions'
+import useAuth from '@/lib/useAuth'
 
 export default function Home() {
   const [players, setPlayers] = useState([])
@@ -23,32 +24,35 @@ export default function Home() {
   const [selectedLeague, setSelectedLeague] = useState('')
   const [selectedTeam, setSelectedTeam] = useState('')
   const [selectedCountry, setSelectedCountry] = useState('')
+  const { token } = useAuth()
 
   const fetchPlayers = async () => {
     try {
-      const { data } = await getUserPortfolio({
-        // address,
-        league: selectedLeague,
-        team: selectedTeam,
-        country: selectedCountry,
-        search,
-        sport,
-        sort: sortBy,
-        dir: sortDirection
-      })
+      const { data } = await getUserPortfolio(
+        {
+          league: selectedLeague,
+          team: selectedTeam,
+          country: selectedCountry,
+          search,
+          sport,
+          sort: sortBy,
+          dir: sortDirection
+        },
+        token
+      )
       setData(data)
-      setPlayers(data?.tokens)
+      setPlayers(data?.assets)
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       setError(error)
+      console.log('error', error)
     }
   }
   useEffect(() => {
     fetchPlayers()
   }, [
     sortBy,
-    // address:'',
     sortDirection,
     search,
     sport,

@@ -75,15 +75,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <ReduxProviders>
-        <body
-          className={`${titillium.className} bg-accent-dark text-[#333333]`}>
-          {/* <Navbar /> */}
+      <body className={`${titillium.className} bg-accent-dark text-[#333333]`}>
+        {/* <Navbar /> */}
+        <ReduxProviders>
           <div className="bg-background">{children}</div>
           {/* <Footer /> */}
           <Toaster />
-        </body>
-      </ReduxProviders>
+        </ReduxProviders>
+      </body>
     </html>
   )
 }
