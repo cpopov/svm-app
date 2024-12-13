@@ -26,7 +26,9 @@ import Link from 'next/link'
 import { PasswordInput } from '../ui/passwordField'
 import { apiSignUpUser } from '@/actions'
 import { setToken } from '@/lib/redux'
+import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -65,13 +67,12 @@ const FormSchema = z
 
 export function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   const form = useForm({
     resolver: zodResolver(FormSchema)
   })
   const dispatch = useDispatch()
   const onSubmit = async data => {
-    console.log('Form data:', data)
-    // Handle login logic here
     const formData = {
       ...data
     }
