@@ -11,8 +11,9 @@ import SearchBox from '@/components/SearchBox'
 import SportFilter from '@/components/ui/SportFilter'
 import { getUserPortfolio } from '@/actions'
 import useAuth from '@/lib/useAuth'
+import withAuth from '@/lib/withAuth'
 
-export default function Home() {
+function Home() {
   const [players, setPlayers] = useState([])
   const [data, setData] = useState()
   const [sortBy, setSortBy] = useState('name')
@@ -115,3 +116,4 @@ export default function Home() {
     </main>
   )
 }
+export default withAuth(Home)
