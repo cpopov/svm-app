@@ -17,7 +17,20 @@ export const getPlayersList = ({
   page,
   sport,
   pageSize
-}) => http.get(`/market/${sport}?page=${page}&pageSize=${pageSize}`)
+}) =>
+  http.get(`/market/${sport}`, {
+    params: {
+      search,
+      league,
+      team,
+      country,
+      sort,
+      dir,
+      page,
+      sport,
+      pageSize
+    }
+  })
 
 /**
  * Get the player details
