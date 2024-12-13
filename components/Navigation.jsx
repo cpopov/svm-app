@@ -6,13 +6,18 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import Link from 'next/link'
 import React from 'react'
+import { setLogOutState } from '@/lib/redux'
 import truncate from '@/lib/truncate'
+import useAuth from '@/lib/useAuth'
+import { useDispatch } from 'react-redux'
 
 function Navigation() {
   const pathname = usePathname()
-  // const { open } = useWeb3Modal()
-  // const { address, isConnected } = useAccount()
-  const navLinks = true ? userNavLinks : guestNavLinks
+  const { isAuthenticate } = useAuth()
+  const router = useRouter()
+
+  const navLinks = isAuthenticate ? userNavLinks : guestNavLinks
+  const dispatch = useDispatch()
   return (
     <>
       <div className="space-x-8 flex h-full">
@@ -28,11 +33,21 @@ function Navigation() {
         ))}
       </div>
       <div className="gap-4 flex items-center">
-        <Button
-          className="text-white bg-transparent w-[100px]"
-          variant="outline">
-          Login
-        </Button>
+        {isAuthenticate ? (
+          <Button
+            onClick={() => dispatch(setLogOutState())}
+            className="text-white bg-transparent w-[100px]"
+            variant="outline">
+            Logout
+          </Button>
+        ) : (
+          <Button
+            onClick={() => router.push('/login')}
+            className="text-white bg-transparent w-[100px]"
+            variant="outline">
+            Login
+          </Button>
+        )}
       </div>
     </>
   )
