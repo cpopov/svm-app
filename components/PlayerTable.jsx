@@ -69,7 +69,7 @@ const TableWrapper = ({
             Player {renderSortArrow('name', sortBy, sortDirection)}
           </div>
         </TableHead>
-        <TableHead className="hidden md:table-cell">Symbol</TableHead>
+        {/* <TableHead className="hidden md:table-cell">Symbol</TableHead> */}
         <TableHead className="cursor-pointer" onClick={() => onSort('team')}>
           <div className="flex items-center md:justify-start justify-center gap-1">
             Team {renderSortArrow('team', sortBy, sortDirection)}
@@ -126,7 +126,7 @@ const PlayerRow = ({ player, sport }) => (
         </div>
       </div>
     </TableCell>
-    <TableCell className="hidden md:table-cell md:pl-5">
+    <TableCell className="hidden md:table-cell md:pl-5 max-w-60">
       <Link href={`/player/${sport}/${player?.playerId}`}>
         <div className="flex items-center h-full">
           <div className="relative h-14 w-14 mr-2 rounded-full overflow-clip group-hover:border-accent border">
@@ -144,7 +144,7 @@ const PlayerRow = ({ player, sport }) => (
         </div>
       </Link>
     </TableCell>
-    <TableCell className="hidden md:table-cell">{player.symbol}</TableCell>
+    {/* <TableCell className="hidden md:table-cell">{player.symbol}</TableCell> */}
     <TableCell className="hidden md:table-cell">{player.team}</TableCell>
     <TableCell className="hidden md:table-cell">{player.position}</TableCell>
     <TableCell className="hidden md:table-cell">

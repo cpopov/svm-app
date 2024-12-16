@@ -15,7 +15,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Loader2 } from 'lucide-react'
+import { apiTransactToken } from '@/actions'
 import { getTimestampInSeconds } from '@/lib/utils'
+import useAuth from '@/lib/useAuth'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@/components/ui/use-toast'
 import { z } from 'zod'
@@ -41,15 +43,16 @@ const BuySell = ({
   setAction
 }) => {
   const [isSubmit, setIsSubmit] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [estimateBuyAmount, setEstimateBuyAmount] = useState(0)
   const [estimateSellAmount, setEstimateSellAmount] = useState(0)
   const [isfetch, setIsfetch] = useState(false)
   const { toast } = useToast()
+  const { token } = useAuth()
   // const { address } = useAccount()
   // const chainId = useChainId()
   // const signer = useEthersSigner({ chainId })
-
   const FormSchema = z.object({
     amount: z
       .number()
@@ -61,13 +64,14 @@ const BuySell = ({
     mode: 'onChange' // This will make validation run on every change
   })
 
-  const onSubmit = async (rowData, action) => {
-    setIsSubmit(true)
+  // const onSubmit = async (rowData, action) => {
+  const onSubmit = async values => {
+    console.log('select data', data)
+    setIsLoading(true)
 
     try {
-      const deadline = getTimestampInSeconds() + 5000
       // if (action === 'buy') {
-      //   await buyTokenWithSign(
+      //   await apiTransactToken(
       //     signer,
       //     address,
       //     data.issuerAddr,
@@ -87,78 +91,31 @@ const BuySell = ({
       //   )
       // }
 
-      setIsDialogOpen(false)
-      setRefresh(new Date())
+      // setIsDialogOpen(false)
+      // setRefresh(new Date())
+      const formData = {
+        assetId: data?.id,
+        direction: action,
+        qty: values?.amount,
+        market: data?.market
+      }
+      console.log('formData', formData)
+      let res = await apiTransactToken(formData, token)
       toast({
-        title: `Transaction successfully completed!`
+        title: `Order has been submitted!`
       })
+
+      setIsLoading(false)
     } catch (error) {
       console.log(error.message)
-
-      if (error.message.includes('EnforcedPause')) {
-        toast({
-          variant: 'destructive',
-          title: 'Action  paused in the contract!',
-          description: 'This contract is paused at the moment'
-        })
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Something went wrong! Please try again',
-          description: `${error.message.slice(0, 100)}...`
-        })
-      }
+      toast({
+        variant: 'destructive',
+        title: `Transaction failed!`
+      })
+      setIsLoading(false)
     }
     setIsSubmit(false)
   }
-
-  // useEffect(() => {
-  //   const amount = Number(form.watch('amount') || 0)
-
-  //   if (amount > 0) {
-  //     setIsfetch(true)
-  //     readEstimate(amount, data.issuerAddr, chainId)
-  //       .then(values => {
-  //         console.log(values)
-
-  //         setEstimateBuyAmount(
-  //           parseFloat(formatToken(values.previewBuy?.toString())).toFixed(3)
-  //         )
-  //         if (values.previewSell) {
-  //           setEstimateSellAmount(
-  //             parseFloat(formatUSDC(values.previewSell, chainId)).toFixed(3)
-  //           )
-  //         } else {
-  //           setEstimateSellAmount(0)
-  //         }
-  //         setIsfetch(false)
-  //       })
-  //       .catch(e => {
-  //         setEstimateBuyAmount(0)
-  //         setEstimateSellAmount(0)
-  //         setIsfetch(false)
-  //       })
-  //   } else {
-  //     setEstimateBuyAmount(0)
-  //   }
-  // }, [form.watch('amount')])
-
-  // useEffect(() => {
-  //   const amount = Number(form.watch('amount') || 0)
-
-  //   const formattedBalance =
-  //     action === 'buy' ? formatEth(balanceUsdc) : ethers.formatEther(balance)
-
-  //   const sellError = amount > parseFloat(formattedBalance) ? true : false
-  //   const buyError = amount > parseFloat(formattedBalance) ? true : false
-
-  //   if (action === 'buy') {
-  //     setIsError(buyError)
-  //   } else {
-  //     setIsError(sellError)
-  //   }
-  // }, [form.watch('amount'), balance])
-
   return (
     <Tabs
       defaultValue={action}
@@ -192,6 +149,12 @@ const BuySell = ({
                     />
                   </FormControl>
                   <FormDescription className="text-accent">
+                    {form.getValues('amount') && (
+                      <span>
+                        You will get {form.getValues('amount') / data.price}{' '}
+                        tokens
+                      </span>
+                    )}
                     {estimateBuyAmount > 0 && (
                       <span>
                         You will get{' '}
@@ -248,19 +211,10 @@ const BuySell = ({
                     />
                   </FormControl>
                   <FormDescription className="text-accent">
-                    {estimateSellAmount > 0 && (
+                    {form.getValues('amount') && (
                       <span>
-                        You will get{' '}
-                        {isfetch ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin inline-block" />
-                        ) : (
-                          <b>{estimateSellAmount}</b>
-                        )}{' '}
-                        (estimated) USDC
+                        You will get {form.getValues('amount') * data.price} $
                       </span>
-                    )}
-                    {estimateSellAmount === 0 && isfetch && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin inline-block" />
                     )}
                   </FormDescription>
                   <FormMessage />

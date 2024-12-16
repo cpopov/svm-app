@@ -36,21 +36,6 @@ function TradeButton({
   const [balance, setBalance] = useState(0)
   const [balanceUsdc, setBalanceUsdc] = useState(0)
   const [refresh, setRefresh] = useState(new Date())
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     balanceOf(address, data.tokenAddr)
-  //       .then(bal => {
-  //         setBalance(bal)
-  //       })
-  //       .catch(e => console.log('Balance fetching: ', e))
-
-  //     balanceOfUsdc(address)
-  //       .then(bal => {
-  //         setBalanceUsdc(bal)
-  //       })
-  //       .catch(e => console.log('Balance fetching usdc: ', e))
-  //   }
-  // }, [data, address, refresh])
 
   // Reset action when dialog closed
   useEffect(() => {
@@ -59,17 +44,6 @@ function TradeButton({
     }
   }, [isDialogOpen])
 
-  // if (!address || !isConnected)
-  //   return (
-  //     <Button
-  //       disabled={isDisabled}
-  //       onClick={async () => {
-  //         setIsDialogOpen(true)
-  //       }}
-  //       className="gradient-button w-20">
-  //       {cta}
-  //     </Button>
-  //   )
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
