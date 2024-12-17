@@ -92,13 +92,13 @@ export default function Page({ params }) {
         <Card className="md:p-10 p-5 rounded-none md:rounded-md">
           <PlayerDetails {...{ data, loading }} />
           <Separator className="md:hidden mt-5" />
-          <PlayerData
+          {/* <PlayerData
             data={statsData}
             error={statsError}
             loading={statsLoading}
-          />
+          /> */}
 
-          <div className="hidden md:flex flex-col gap-8">
+          <div className="hidden md:flex mt-5 flex-col gap-8">
             <StatsHeader />
             <PlayerStats
               data={statsData}
