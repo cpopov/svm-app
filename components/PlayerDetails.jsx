@@ -91,12 +91,12 @@ function PlayerDetails({ data, loading = false }) {
             </div>
           </div>
         </div>
-        <div className="">
+        {/* <div className="">
           <p className="font-bold text-accent-dark mb-2">
             AVG. GOALS BY SEASON
           </p>
           <PlayerStatsChart />
-        </div>
+        </div> */}
       </div>
     </div>
   )
