@@ -1,8 +1,19 @@
+'use client'
+
+import React, { useLayoutEffect } from 'react'
+
 import Image from 'next/image'
-import Navbar from '@/components/Navbar'
-import React from 'react'
+import useAuth from '@/lib/useAuth'
+import { useRouter } from 'next/navigation'
 
 function Layout({ children }) {
+  const { isAuthenticate } = useAuth()
+  const router = useRouter()
+  useLayoutEffect(() => {
+    if (isAuthenticate) {
+      router.push('/')
+    }
+  }, [isAuthenticate])
   return (
     <div className="bg-black">
       <div className="flex bg-cover bg-no-repeat h-screen w-full items-center justify-center flex-col px-4 bg-[url('/sign-bg.png')]">
