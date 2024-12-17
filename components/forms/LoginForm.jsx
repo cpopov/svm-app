@@ -67,11 +67,16 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="md:mx-auto md:min-w-80 min-w-full">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
+        <CardTitle className="text-2xl text-center">
+          Sign in to your account
+        </CardTitle>
+        <CardDescription className="text-center">
+          New to SVT?{' '}
+          <Link className="text-accent" href="/sign-up">
+            Create account
+          </Link>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -122,19 +127,18 @@ export function LoginForm() {
                   </FormItem>
                 )}
               />
-
-              <Button type="submit" className="w-full">
-                Login
+              <Button type="submit" className="w-full bg-[#057E6E]">
+                Sign In
               </Button>
             </div>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
+        {/* <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{' '}
           <Link href="/sign-up" className="underline">
             Sign up
           </Link>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   )

@@ -42,7 +42,7 @@ function Navigation() {
           </Button>
         ) : (
           <Button
-            onClick={() => router.push('/login')}
+            onClick={() => router.push('/sign-in')}
             className="text-white bg-transparent w-[100px]"
             variant="outline">
             Login
