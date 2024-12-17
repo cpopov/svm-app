@@ -98,11 +98,14 @@ export function SignUpForm() {
   }
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="md:mx-auto md:min-w-80 min-w-full">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl text-center">Register account</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Already have an account?{' '}
+          <Link className="text-accent" href="/sign-in">
+            Sign In
+          </Link>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -206,18 +209,12 @@ export function SignUpForm() {
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                Sign up
+              <Button type="submit" className="w-full bg-[#057E6E]">
+                Register Account
               </Button>
             </div>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
-          Already have an account?{' '}
-          <Link href="/login" className="underline">
-            Login
-          </Link>
-        </div>
       </CardContent>
     </Card>
   )
