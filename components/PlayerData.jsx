@@ -50,12 +50,11 @@ function PlayerData({ data, error, loading = false }) {
           {/* <Switch checked={field.value} onCheckedChange={field.onChange} /> */}
         </div>
       </div>
-      <div className="hidden md:flex flex-col sm:justify-between">
+      {/* <div className="hidden md:flex flex-col sm:justify-between">
         <p className="font-semibold">GET REWARDS</p>
         <Switch />
-        {/* <Switch checked={field.value} onCheckedChange={field.onChange} /> */}
-      </div>
-      <div className="flex flex-row gap-0 mt-auto md:w-fit w-full">
+      </div> */}
+      {/* <div className="flex flex-row gap-0 mt-auto md:w-fit w-full">
         <Button
           className="rounded-r-none border-accent font-medium text-accent hover:text-white w-full"
           variant="outline">
@@ -66,7 +65,7 @@ function PlayerData({ data, error, loading = false }) {
           variant="outline">
           Claim free tokens
         </Button>
-      </div>
+      </div> */}
       <div className="flex mt-auto md:w-fit w-full">
         <Button className="bg-accent w-full md:w-28">Trade</Button>
       </div>
