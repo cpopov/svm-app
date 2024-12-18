@@ -155,7 +155,11 @@ const PlayerRow = ({ player }) => (
       {player.price ? `$ ${player.price}` : ''}
     </TableCell>
     <TableCell className="hidden md:table-cell lg:max-w-16 md:pr-5">
-      <TradeButton className="gradient-button" data={player} />
+      <TradeButton
+        className="gradient-button"
+        data={player}
+        assetId={player?.assetId}
+      />
     </TableCell>
   </TableRow>
 )

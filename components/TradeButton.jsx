@@ -21,6 +21,7 @@ import useAuth from '@/lib/useAuth'
 
 function TradeButton({
   data,
+  assetId,
   ctaText = 'TRADE',
   variant = 'default',
   className
@@ -83,6 +84,7 @@ function TradeButton({
             <BuySell
               {...{
                 action,
+                assetId,
                 data,
                 balance,
                 setIsDialogOpen,
