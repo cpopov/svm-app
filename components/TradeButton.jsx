@@ -134,7 +134,7 @@ function LoginDialog() {
         </DialogTitle>
       </DialogHeader>
       <DialogDescription>
-        You need to Sign in first to perform any trade?
+        Please sign in to proceed with trading!
       </DialogDescription>
       <div className="flex flex-col gap-4">
         <Link href="/sign-in">
