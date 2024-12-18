@@ -15,7 +15,7 @@ function PlayerDetails({ data, loading = false }) {
   if (!data) return <ErrorMessage />
   return (
     <div className="md:grid flex flex-col md:grid-cols-5 gap-5">
-      <div className="md:col-span-2 flex w-full md:flex-row justify-between flex-row-reverse gap-4">
+      <div className="md:col-span-2 flex w-full md:flex-row md:justify-normal justify-between flex-row-reverse gap-4">
         <div className="shrink-0 aspect-square relative w-36 h-36 rounded-full p-[4px] bg-gradient-to-r from-[#009694] to-[#65f53d] overflow-hidden">
           {data?.photo ? (
             <div className="w-full h-full rounded-full bg-white relative overflow-hidden">
@@ -91,12 +91,12 @@ function PlayerDetails({ data, loading = false }) {
             </div>
           </div>
         </div>
-        <div className="">
+        {/* <div className="">
           <p className="font-bold text-accent-dark mb-2">
             AVG. GOALS BY SEASON
           </p>
           <PlayerStatsChart />
-        </div>
+        </div> */}
       </div>
     </div>
   )

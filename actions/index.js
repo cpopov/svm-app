@@ -14,6 +14,14 @@ export const apiTransactToken = (data, token) =>
       'Content-type': 'application/json'
     }
   })
+export const apiTransactionList = (params, token) =>
+  http.get(`/users/transactions`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-type': 'application/json'
+    },
+    params: { ...params }
+  })
 
 export const getPlayersList = ({
   search,
@@ -60,7 +68,7 @@ export const getUserPortfolio = (
   )
 
 export const getSportFilters = ({ sport, item }) =>
-  http.get(`/market/${sport}/${item}`)
+  http.get(`/markets/${sport}/${item}`)
 
 export const getPlayerDetails = (sportId, playerId) =>
   http2.get(`/players/${sportId}/${playerId}`)

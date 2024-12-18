@@ -1,5 +1,13 @@
 'use client'
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from './ui/dropdown-menu'
 import { guestNavLinks, userNavLinks } from '@/lib/constants'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -17,7 +25,7 @@ function Navigation() {
   const router = useRouter()
 
   const navLinks = isAuthenticate ? userNavLinks : guestNavLinks
-  const dispatch = useDispatch()
+
   return (
     <>
       <div className="space-x-8 flex h-full">
@@ -34,12 +42,13 @@ function Navigation() {
       </div>
       <div className="gap-4 flex items-center">
         {isAuthenticate ? (
-          <Button
-            onClick={() => dispatch(setLogOutState())}
-            className="text-white bg-transparent w-[100px]"
-            variant="outline">
-            Logout
-          </Button>
+          // <Button
+          //   onClick={() => dispatch(setLogOutState())}
+          //   className="text-white bg-transparent w-[100px]"
+          //   variant="outline">
+          //   Logout
+          // </Button>
+          <UserDropDown />
         ) : (
           <Button
             onClick={() => router.push('/sign-in')}
@@ -54,3 +63,36 @@ function Navigation() {
 }
 
 export default Navigation
+function UserDropDown() {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="text-white w-[100px]" variant="outline">
+          Profile
+        </Button>
+        {/* <Button variant="ghost">Profile</Button> */}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-44">
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            role="button"
+            onClick={() => {
+              router.push('/profile/transactions')
+            }}>
+            Transactions
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="cursor-pointer"
+          role="button"
+          onClick={() => dispatch(setLogOutState())}>
+          Logout
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

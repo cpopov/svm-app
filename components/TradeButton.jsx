@@ -11,8 +11,11 @@ import React, { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import BuySell from '@/components/BuySell'
+import { DialogDescription } from '@radix-ui/react-dialog'
 import Image from 'next/image'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import useAuth from '@/lib/useAuth'
 
 // import { balanceOf, balanceOfUsdc } from '@/lib/contract-utils'
 
@@ -30,7 +33,7 @@ function TradeButton({
       : ctaText
   const isDisabled =
     data.status === 'unlisted' || undefined ? true : data?.paused ? true : false
-  // const { address, isConnected } = useAccount()
+  const { isAuthenticate } = useAuth()
   const [action, setAction] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [balance, setBalance] = useState(0)
@@ -43,17 +46,8 @@ function TradeButton({
       setAction('')
     }
   }, [isDialogOpen])
-
-  return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant={variant}
-          disabled={isDisabled}
-          className={cn('my-auto w-20', className)}>
-          {cta}
-        </Button>
-      </DialogTrigger>
+  function AuthContent() {
+    return (
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle className="text-2xl font-medium">Trade</DialogTitle>
@@ -99,15 +93,11 @@ function TradeButton({
             />
           ) : (
             <div className="flex flex-col gap-4 py-5 items-center justify-center">
-              <div className="flex text-sm border rounded-full px-2 w-fit">
+              {/* <div className="flex text-sm border rounded-full px-2 w-fit">
                 <p className="font-thin">Current Balance: </p>
-                <p className="font-semibold ml-2">
-                  {/* {parseFloat(ethers.formatEther(balance?.toString())).toFixed(
-                    3
-                  )} */}
-                </p>
-              </div>
-              <div className="flex gap-5">
+                <p className="font-semibold ml-2">__</p>
+              </div> */}
+              <div className="flex gap-5 mt-5">
                 <Button className="w-[100px]" onClick={() => setAction('buy')}>
                   Buy
                 </Button>
@@ -119,8 +109,39 @@ function TradeButton({
           )}
         </div>
       </DialogContent>
+    )
+  }
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        <Button
+          variant={variant}
+          disabled={isDisabled}
+          className={cn('my-auto w-20', className)}>
+          {cta}
+        </Button>
+      </DialogTrigger>
+      {isAuthenticate ? <AuthContent /> : <LoginDialog />}
     </Dialog>
   )
 }
-
+function LoginDialog() {
+  return (
+    <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogHeader>
+        <DialogTitle className="text-2xl font-medium">
+          Please Sign in!
+        </DialogTitle>
+      </DialogHeader>
+      <DialogDescription>
+        You need to Sign in first to perform any trade?
+      </DialogDescription>
+      <div className="flex flex-col gap-4">
+        <Link href="/sign-in">
+          <Button className="w-full">Sign in</Button>
+        </Link>
+      </div>
+    </DialogContent>
+  )
+}
 export default TradeButton

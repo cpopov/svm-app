@@ -23,25 +23,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-// import {
-//   buyTokenWithSign,
-//   sellTokenWithSign,
-//   readEstimate,
-//   formatUSDC,
-//   formatToken,
-//   usdcAddress,
-//   formatEth
-// } from '@/lib/contract-utils'
-
-const BuySell = ({
-  action = 'buy',
-  data,
-  balance,
-  balanceUsdc,
-  setIsDialogOpen,
-  setRefresh,
-  setAction
-}) => {
+const BuySell = ({ action = 'buy', data, setAction, setIsDialogOpen }) => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -50,9 +32,6 @@ const BuySell = ({
   const [isfetch, setIsfetch] = useState(false)
   const { toast } = useToast()
   const { token } = useAuth()
-  // const { address } = useAccount()
-  // const chainId = useChainId()
-  // const signer = useEthersSigner({ chainId })
   const FormSchema = z.object({
     amount: z
       .number()
@@ -70,29 +49,6 @@ const BuySell = ({
     setIsLoading(true)
 
     try {
-      // if (action === 'buy') {
-      //   await apiTransactToken(
-      //     signer,
-      //     address,
-      //     data.issuerAddr,
-      //     rowData.amount,
-      //     deadline,
-      //     chainId
-      //   )
-      // } else {
-      //   await sellTokenWithSign(
-      //     signer,
-      //     address,
-      //     data.issuerAddr,
-      //     rowData.amount,
-      //     deadline,
-      //     data.tokenAddr,
-      //     chainId
-      //   )
-      // }
-
-      // setIsDialogOpen(false)
-      // setRefresh(new Date())
       const formData = {
         assetId: data?.id,
         direction: action,
@@ -104,6 +60,7 @@ const BuySell = ({
       toast({
         title: `Order has been submitted!`
       })
+      setIsDialogOpen(false)
 
       setIsLoading(false)
     } catch (error) {
@@ -112,6 +69,7 @@ const BuySell = ({
         variant: 'destructive',
         title: `Transaction failed!`
       })
+      setIsDialogOpen(false)
       setIsLoading(false)
     }
     setIsSubmit(false)
@@ -139,7 +97,7 @@ const BuySell = ({
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Enter amount of USDC</FormLabel>
+                  <FormLabel>Enter amount of SVP</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -151,23 +109,12 @@ const BuySell = ({
                   <FormDescription className="text-accent">
                     {form.getValues('amount') && (
                       <span>
-                        You will get {form.getValues('amount') / data.price}{' '}
+                        You will get{' '}
+                        {Number(form.getValues('amount') / data.price).toFixed(
+                          2
+                        )}{' '}
                         tokens
                       </span>
-                    )}
-                    {estimateBuyAmount > 0 && (
-                      <span>
-                        You will get{' '}
-                        {isfetch ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin inline-block" />
-                        ) : (
-                          <b>{estimateBuyAmount}</b>
-                        )}{' '}
-                        (estimated) {data.name} tokens
-                      </span>
-                    )}
-                    {estimateBuyAmount === 0 && isfetch && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin inline-block" />
                     )}
                   </FormDescription>
                   <FormMessage />
@@ -175,20 +122,22 @@ const BuySell = ({
               )}
             />
 
-            <div className="flex text-sm border rounded-full px-2 w-fit mx-auto">
+            {/* <div className="flex text-sm border rounded-full px-2 w-fit mx-auto">
               <p className="font-thin">USDC Balance:</p>{' '}
               <p className="font-semibold ml-2">
                 --
-                {/* {parseFloat(formatEth(balanceUsdc?.toString())).toFixed(2)} */}
               </p>
-            </div>
+            </div> */}
 
             <Button
               disabled={!form.formState.isValid || isSubmit || isError}
               className="w-full"
               type="submit">
-              {isSubmit && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Buy
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                'Buy'
+              )}
             </Button>
           </form>
         </TabsContent>
@@ -213,7 +162,11 @@ const BuySell = ({
                   <FormDescription className="text-accent">
                     {form.getValues('amount') && (
                       <span>
-                        You will get {form.getValues('amount') * data.price} $
+                        You will get{' '}
+                        {Number(form.getValues('amount') * data.price).toFixed(
+                          2
+                        )}{' '}
+                        SVP
                       </span>
                     )}
                   </FormDescription>
@@ -222,19 +175,19 @@ const BuySell = ({
               )}
             />
 
-            <div className="flex text-sm border rounded-full px-2 w-fit mx-auto">
+            {/* <div className="flex text-sm border rounded-full px-2 w-fit mx-auto">
               <p className="font-thin">Token Balance:</p>{' '}
-              <p className="font-semibold ml-2">
-                --
-                {/* {parseFloat(ethers.formatEther(balance?.toString())).toFixed(2)} */}
-              </p>
-            </div>
+              <p className="font-semibold ml-2">--</p>
+            </div> */}
             <Button
               disabled={!form.formState.isValid || isSubmit || isError}
               className="w-full"
               type="submit">
-              {isSubmit && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sell
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                'Sell'
+              )}
             </Button>
           </form>
         </TabsContent>
