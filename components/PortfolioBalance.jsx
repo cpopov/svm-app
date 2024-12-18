@@ -83,11 +83,11 @@ function PortfolioBalance({ data, loading = false }) {
             )}
           </p>
         </div>
-        <div className="flex my-auto">
+        {/* <div className="flex my-auto">
           <Button size="lg" variant="outline" className="border-accent">
             Claim free tokens
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   )
