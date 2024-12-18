@@ -1,7 +1,4 @@
-'use client'
-
 import Navbar from '@/components/Navbar'
-import withAuth from '@/lib/withAuth'
 
 function Layout({ children }) {
   return (
@@ -12,4 +9,4 @@ function Layout({ children }) {
   )
 }
 
-export default withAuth(Layout)
+export default Layout
