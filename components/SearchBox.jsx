@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import { Input } from './ui/input'
+import { cn } from '@/lib/utils'
 
-function SearchBox({ setSearch = () => {}, timeOut = 1000 }) {
+function SearchBox({ setSearch = () => {}, timeOut = 1000, className }) {
   const [searchTerm, setSearchTerm] = useState('')
 
   // Debounce effect
@@ -16,7 +17,7 @@ function SearchBox({ setSearch = () => {}, timeOut = 1000 }) {
   }, [searchTerm])
 
   return (
-    <div className="relative">
+    <div className={cn('relative', className)}>
       <div className="absolute left-2 top-0 bottom-0 my-auto h-fit">
         <svg
           width="20"
