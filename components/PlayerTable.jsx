@@ -37,8 +37,8 @@ const PlayerTable = ({
         </TableWrapper>
       </div>
     )
-  if (error) return <ErrorMessage />
   if (isLoading) return <Loader />
+  if (error) return <ErrorMessage />
 }
 
 const renderSortArrow = (criteria, sortBy, sortDirection) => {

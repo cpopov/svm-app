@@ -53,6 +53,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchPlayers()
+    return setPlayers()
   }, [
     sortBy,
     sortDirection,
