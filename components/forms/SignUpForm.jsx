@@ -101,7 +101,7 @@ export function SignUpForm() {
     <Card className="md:mx-auto md:min-w-80 min-w-full">
       <CardHeader>
         <CardTitle className="text-2xl text-center">Register account</CardTitle>
-        <CardDescription>
+        <CardDescription className="text-center">
           Already have an account?{' '}
           <Link className="text-accent" href="/sign-in">
             Sign In
