@@ -99,15 +99,11 @@ function TradeButton({
             />
           ) : (
             <div className="flex flex-col gap-4 py-5 items-center justify-center">
-              <div className="flex text-sm border rounded-full px-2 w-fit">
+              {/* <div className="flex text-sm border rounded-full px-2 w-fit">
                 <p className="font-thin">Current Balance: </p>
-                <p className="font-semibold ml-2">
-                  {/* {parseFloat(ethers.formatEther(balance?.toString())).toFixed(
-                    3
-                  )} */}
-                </p>
-              </div>
-              <div className="flex gap-5">
+                <p className="font-semibold ml-2">__</p>
+              </div> */}
+              <div className="flex gap-5 mt-5">
                 <Button className="w-[100px]" onClick={() => setAction('buy')}>
                   Buy
                 </Button>
