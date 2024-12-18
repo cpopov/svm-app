@@ -31,6 +31,7 @@ function Home() {
     const payload = {
       from: startDate,
       to: endDate
+
       // sort: sortBy,
       // dir: sortDirection
     }
@@ -81,8 +82,8 @@ function Home() {
             <ChevronDown />
           </div>
         </SportFilter> */}
-        <div className="flex md:ml-auto flex-wrap items-center gap-4">
-          {/* <div className="hidden md:flex gap-2 flex-wrap">
+        {/* <div className="flex md:ml-auto flex-wrap items-center gap-4">
+          <div className="hidden md:flex gap-2 flex-wrap">
             <FilterBadge filter={selectedLeague} action={setSelectedLeague} />
             <FilterBadge filter={selectedTeam} action={setSelectedTeam} />
             <FilterBadge filter={selectedCountry} action={setSelectedCountry} />
@@ -101,13 +102,13 @@ function Home() {
             <FilterBadge filter={selectedLeague} action={setSelectedLeague} />
             <FilterBadge filter={selectedTeam} action={setSelectedTeam} />
             <FilterBadge filter={selectedCountry} action={setSelectedCountry} />
-          </div> */}
+          </div>
           <SearchBox
             className=" md:w-fit w-full"
             timeOut={400}
             setSearch={setSearch}
           />
-        </div>
+        </div> */}
         <div className="flex items-center gap-2 md:mx-0 mx-auto">
           <DatePicker
             label="Start Date"
