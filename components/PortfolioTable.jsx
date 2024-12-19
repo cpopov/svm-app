@@ -11,6 +11,7 @@ import {
 
 import { Badge } from './ui/badge'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { Skeleton } from './ui/skeleton'
 import Ticker from './Ticker'
@@ -21,6 +22,7 @@ const PortfolioTable = ({
   players = [],
   onSort,
   error,
+  sport,
   sortBy,
   sortDirection
 }) => {
@@ -29,7 +31,7 @@ const PortfolioTable = ({
       <div className="md:container">
         <TableWrapper {...{ onSort, sortBy, sortDirection }}>
           {players.map((player, index) => (
-            <PlayerRow key={index} player={player} />
+            <PlayerRow key={index} player={player} sport={sport} />
           ))}
         </TableWrapper>
       </div>
@@ -82,19 +84,21 @@ const TableWrapper = ({ children, onSort, sortBy, sortDirection }) => (
   </Table>
 )
 
-const PlayerRow = ({ player }) => (
+const PlayerRow = ({ player, sport }) => (
   <TableRow className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
-        <div className="relative h-12 w-12 mr-2 rounded-full overflow-clip group-hover:border-accent border">
-          <Image
-            src={player.photo || '/player_image.jpg'}
-            className="mr-2 object-contain"
-            fill
-            sizes="auto"
-            alt=""
-          />
-        </div>
+        <Link href={`/player/${sport}/${player?.playerId}`}>
+          <div className="relative h-12 w-12 mr-2 rounded-full overflow-clip group-hover:border-accent border">
+            <Image
+              src={player.photo || '/player_image.jpg'}
+              className="mr-2 object-contain"
+              fill
+              sizes="auto"
+              alt=""
+            />
+          </div>
+        </Link>
         <div>
           <div className="flex items-end">
             <p className="text-[#47A847] font-bold">
@@ -135,18 +139,20 @@ const PlayerRow = ({ player }) => (
       </div>
     </TableCell>
     <TableCell className="hidden md:table-cell">
-      <div className="flex items-center h-full">
-        <div className="relative h-14 w-14 mr-2 rounded-full overflow-clip group-hover:border-accent border">
-          <Image
-            src={player.photo || '/player_image.jpg'}
-            className="mr-2 object-contain"
-            fill
-            sizes="auto"
-            alt=""
-          />
+      <Link href={`/player/${sport}/${player?.playerId}`}>
+        <div className="flex items-center h-full">
+          <div className="relative h-14 w-14 mr-2 rounded-full overflow-clip group-hover:border-accent border">
+            <Image
+              src={player.photo || '/player_image.jpg'}
+              className="mr-2 object-contain"
+              fill
+              sizes="auto"
+              alt=""
+            />
+          </div>
+          <p className="text-accent-dark font-bold">{player.name}</p>
         </div>
-        <p className="text-accent-dark font-bold">{player.name}</p>
-      </div>
+      </Link>
     </TableCell>
     <TableCell className="hidden md:table-cell">{player.symbol}</TableCell>
     <TableCell className="hidden md:table-cell">{player.team}</TableCell>
@@ -155,7 +161,11 @@ const PlayerRow = ({ player }) => (
       {player.price ? `$ ${player.price}` : ''}
     </TableCell>
     <TableCell className="hidden md:table-cell lg:max-w-16 md:pr-5">
-      <TradeButton className="gradient-button" data={player} />
+      <TradeButton
+        className="gradient-button"
+        data={player}
+        assetId={player?.assetId}
+      />
     </TableCell>
   </TableRow>
 )

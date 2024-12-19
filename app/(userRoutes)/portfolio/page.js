@@ -109,7 +109,7 @@ function Home() {
       </div>
       <PortfolioBalance {...{ data, isLoading }} />
       <PortfolioTable
-        {...{ players, isLoading, sortBy, sortDirection, error }}
+        {...{ players, isLoading, sport, sortBy, sortDirection, error }}
         onSort={handleSort}
       />
       {/* <PaginationComp {...{ totalPages, page, setPage }} /> */}

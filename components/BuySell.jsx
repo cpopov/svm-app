@@ -23,7 +23,13 @@ import { useToast } from '@/components/ui/use-toast'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-const BuySell = ({ action = 'buy', data, setAction, setIsDialogOpen }) => {
+const BuySell = ({
+  action = 'buy',
+  data,
+  assetId,
+  setAction,
+  setIsDialogOpen
+}) => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -50,7 +56,7 @@ const BuySell = ({ action = 'buy', data, setAction, setIsDialogOpen }) => {
 
     try {
       const formData = {
-        assetId: data?.id,
+        assetId,
         direction: action,
         qty: values?.amount,
         market: data?.market
