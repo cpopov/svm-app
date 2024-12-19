@@ -17,14 +17,14 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { apiGetUserDetails, apiLogin } from '@/actions'
+import { setLoginState, setToken } from '@/lib/redux'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { PasswordInput } from '../ui/passwordField'
-import { apiLogin } from '@/actions'
-import { setToken } from '@/lib/redux'
 import { toast } from '../ui/use-toast'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -47,13 +47,32 @@ export function LoginForm() {
   const onSubmit = async data => {
     setIsLoading(true)
     try {
-      const res = await apiLogin(data)
-      setIsLoading(false)
-      toast({
-        title: 'Login success!'
-      })
-      dispatch(setToken(res?.data?.token))
-      router.push('/')
+      apiLogin(data)
+        .then(res => {
+          setIsLoading(false)
+          if (res?.data?.token) {
+            toast({
+              title: 'Login success!'
+            })
+            dispatch(setToken(res.data.token))
+            return apiGetUserDetails(res.data.token)
+          } else {
+            toast({
+              title: 'Login failed, no token returned.'
+            })
+            return Promise.reject('No token received')
+          }
+        })
+        .then(res => {
+          dispatch(setLoginState(res.data))
+        })
+        .catch(error => {
+          setIsLoading(false)
+          toast({
+            title: 'An error occurred!',
+            description: error.message || error || 'Please try again.'
+          })
+        })
     } catch (error) {
       setIsLoading(false)
       toast({
@@ -67,7 +86,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="md:mx-auto md:min-w-80 min-w-full">
+    <Card className="md:mx-auto md:min-w-96 min-w-full">
       <CardHeader>
         <CardTitle className="text-2xl text-center">
           Sign in to your account

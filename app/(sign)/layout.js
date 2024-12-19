@@ -17,7 +17,7 @@ function Layout({ children }) {
   }, [isAuthenticate])
   return (
     <div className="bg-black">
-      <div className="flex bg-cover bg-no-repeat h-screen w-full items-center justify-center flex-col px-4 bg-[url('/sign-bg.png')]">
+      <div className="flex bg-cover bg-no-repeat min-h-screen w-full items-center justify-center flex-col py-10 md:px-4 bg-[url('/sign-bg.png')]">
         <Link href="/">
           <div className="h-8 w-24 relative mb-5 md:mb-10">
             <Image

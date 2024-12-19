@@ -29,6 +29,20 @@ export const apiGetUserBalance = token =>
       'Content-type': 'application/json'
     }
   })
+export const apiGetUserDetails = token =>
+  http.get(`/users/me`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-type': 'application/json'
+    }
+  })
+export const apiPostUserDetails = (data, token) =>
+  http.post(`/users/balance`, data, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-type': 'application/json'
+    }
+  })
 
 export const getPlayersList = ({
   search,
