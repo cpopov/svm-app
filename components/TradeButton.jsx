@@ -44,9 +44,6 @@ function TradeButton({
   const { isAuthenticate } = useAuth()
   const [action, setAction] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [balance, setBalance] = useState(0)
-  const [balanceUsdc, setBalanceUsdc] = useState(0)
-  const [refresh, setRefresh] = useState(new Date())
 
   // Reset action when dialog closed
   useEffect(() => {
@@ -74,18 +71,27 @@ function TradeButton({
             <div>
               <p className="text-accent-dark font-semibold">
                 {name}
-                <span className="text-black/50">{` (${symbol})`}</span>
+                {symbol ? (
+                  <span className="text-black/50">{` (${symbol})`}</span>
+                ) : null}
               </p>
               <div className="flex text-sm font-medium gap-1 text-black/50">
-                <p>{team}</p>
-                <p>.</p>
+                {team ? (
+                  <>
+                    <p>{team}</p>
+                    <p>.</p>
+                  </>
+                ) : null}
+
                 <p>{position}</p>
               </div>
             </div>
-            <div className="ml-auto">
-              <p className="text-sm uppercase text-right">Price</p>
-              <p className="text-accent font-semibold">${price}</p>
-            </div>
+            {price ? (
+              <div className="ml-auto">
+                <p className="text-sm uppercase text-right">Price</p>
+                <p className="text-accent font-semibold">${price}</p>
+              </div>
+            ) : null}
           </div>
           {action ? (
             <BuySell
