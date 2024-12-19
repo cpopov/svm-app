@@ -14,6 +14,7 @@ import BuySell from '@/components/BuySell'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import Image from 'next/image'
 import Link from 'next/link'
+import { apiGetUserBalance } from '@/actions'
 import { cn } from '@/lib/utils'
 import useAuth from '@/lib/useAuth'
 
@@ -32,6 +33,7 @@ function TradeButton({
   ctaText = 'TRADE',
   variant = 'default',
   className,
+  balance = 0,
   onSuccess = () => {}
 }) {
   const cta =
@@ -45,13 +47,13 @@ function TradeButton({
   const { isAuthenticate } = useAuth()
   const [action, setAction] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-
   // Reset action when dialog closed
   useEffect(() => {
     if (!isDialogOpen) {
       setAction('')
     }
   }, [isDialogOpen])
+
   function AuthContent() {
     return (
       <DialogContent className="sm:max-w-[425px] bg-white">
@@ -103,15 +105,18 @@ function TradeButton({
                 assetId,
                 setAction,
                 setIsDialogOpen,
-                onSuccess
+                onSuccess,
+                balance
               }}
             />
           ) : (
             <div className="flex flex-col gap-4 py-5 items-center justify-center">
-              {/* <div className="flex text-sm border rounded-full px-2 w-fit">
-                <p className="font-thin">Current Balance: </p>
-                <p className="font-semibold ml-2">__</p>
-              </div> */}
+              {balance ? (
+                <div className="flex text-sm border rounded-full px-2 w-fit">
+                  <p className="font-thin">Current Balance: </p>
+                  <p className="font-semibold ml-2">{balance}</p>
+                </div>
+              ) : null}
               <div className="flex gap-5 mt-5">
                 <Button className="w-[100px]" onClick={() => setAction('buy')}>
                   Buy

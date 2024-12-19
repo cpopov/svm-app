@@ -22,6 +22,13 @@ export const apiTransactionList = (params, token) =>
     },
     params: { ...params }
   })
+export const apiGetUserBalance = token =>
+  http.get(`/users/balance`, {
+    headers: {
+      Authorization: 'Bearer ' + token,
+      'Content-type': 'application/json'
+    }
+  })
 
 export const getPlayersList = ({
   search,

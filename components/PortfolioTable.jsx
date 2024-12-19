@@ -19,6 +19,7 @@ import TradeButton from './TradeButton'
 
 const PortfolioTable = ({
   isLoading,
+  balance,
   players = [],
   onSort,
   error,
@@ -37,6 +38,7 @@ const PortfolioTable = ({
               player={player}
               refetch={refetch}
               sport={sport}
+              balance={balance}
             />
           ))}
         </TableWrapper>
@@ -90,7 +92,7 @@ const TableWrapper = ({ children, onSort, sortBy, sortDirection }) => (
   </Table>
 )
 
-const PlayerRow = ({ player, sport, refetch, props }) => (
+const PlayerRow = ({ player, sport, refetch, props, balance }) => (
   <TableRow {...props} className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
@@ -141,6 +143,7 @@ const PlayerRow = ({ player, sport, refetch, props }) => (
             price={player.price}
             assetId={player?.assetId}
             onSuccess={refetch}
+            balance={balance}
           />
         </div>
       </div>
@@ -187,6 +190,7 @@ const PlayerRow = ({ player, sport, refetch, props }) => (
         price={player.price}
         assetId={player?.assetId}
         onSuccess={refetch}
+        balance={balance}
         className="gradient-button"
       />
     </TableCell>

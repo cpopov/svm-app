@@ -30,14 +30,12 @@ const BuySell = ({
   assetId,
   setAction,
   setIsDialogOpen,
+  balance,
   onSuccess = () => {}
 }) => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
-  const [estimateBuyAmount, setEstimateBuyAmount] = useState(0)
-  const [estimateSellAmount, setEstimateSellAmount] = useState(0)
-  const [isfetch, setIsfetch] = useState(false)
   const { toast } = useToast()
   const { token } = useAuth()
   const FormSchema = z.object({
@@ -62,7 +60,6 @@ const BuySell = ({
         qty: values?.amount,
         market: market
       }
-      console.log('formData', formData)
       let res = await apiTransactToken(formData, token)
       toast({
         title: `Order has been submitted!`
@@ -74,7 +71,7 @@ const BuySell = ({
       console.log(error.message)
       toast({
         variant: 'destructive',
-        title: `Transaction failed!`
+        title: error.message || `Transaction failed!`
       })
       setIsDialogOpen(false)
       setIsLoading(false)
