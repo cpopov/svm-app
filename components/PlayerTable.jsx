@@ -122,6 +122,14 @@ const PlayerRow = ({ player, sport }) => (
             variant="outline"
             className="!hover:gradient-button !hover:bg-white border-[#099F8C] text-[#099F8C]"
             data={player}
+            name={player?.name}
+            photo={player?.photo}
+            market={player?.market}
+            team={player?.team}
+            position={player?.position}
+            symbol={player?.symbol}
+            price={player.price}
+            assetId={player?.id}
           />
         </div>
       </div>
@@ -152,9 +160,16 @@ const PlayerRow = ({ player, sport }) => (
     </TableCell>
     <TableCell className="hidden md:table-cell lg:max-w-16 md:pr-5">
       <TradeButton
-        className="gradient-button"
-        assetId={player?.id}
         data={player}
+        name={player?.name}
+        photo={player?.photo}
+        team={player?.team}
+        market={player?.market}
+        position={player?.position}
+        symbol={player?.symbol}
+        price={player.price}
+        assetId={player?.id}
+        className="gradient-button"
       />
     </TableCell>
   </TableRow>
