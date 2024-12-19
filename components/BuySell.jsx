@@ -29,7 +29,8 @@ const BuySell = ({
   price,
   assetId,
   setAction,
-  setIsDialogOpen
+  setIsDialogOpen,
+  onSuccess = () => {}
 }) => {
   const [isSubmit, setIsSubmit] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -67,8 +68,8 @@ const BuySell = ({
         title: `Order has been submitted!`
       })
       setIsDialogOpen(false)
-
       setIsLoading(false)
+      onSuccess()
     } catch (error) {
       console.log(error.message)
       toast({

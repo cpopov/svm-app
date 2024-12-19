@@ -29,6 +29,7 @@ function Home() {
 
   const fetchPlayers = async () => {
     try {
+      setIsLoading(true)
       const { data } = await getUserPortfolio(
         {
           league: selectedLeague,
@@ -52,6 +53,7 @@ function Home() {
   }
   useEffect(() => {
     fetchPlayers()
+    return setPlayers()
   }, [
     sortBy,
     sortDirection,
@@ -110,6 +112,7 @@ function Home() {
       <PortfolioBalance {...{ data, isLoading }} />
       <PortfolioTable
         {...{ players, isLoading, sport, sortBy, sortDirection, error }}
+        refetch={fetchPlayers}
         onSort={handleSort}
       />
       {/* <PaginationComp {...{ totalPages, page, setPage }} /> */}

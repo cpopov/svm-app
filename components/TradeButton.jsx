@@ -31,7 +31,8 @@ function TradeButton({
   assetId,
   ctaText = 'TRADE',
   variant = 'default',
-  className
+  className,
+  onSuccess = () => {}
 }) {
   const cta =
     data.status === 'unlisted' || undefined
@@ -101,7 +102,8 @@ function TradeButton({
                 price,
                 assetId,
                 setAction,
-                setIsDialogOpen
+                setIsDialogOpen,
+                onSuccess
               }}
             />
           ) : (
