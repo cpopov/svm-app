@@ -25,7 +25,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const BuySell = ({
   action = 'buy',
-  data,
+  market,
+  price,
   assetId,
   setAction,
   setIsDialogOpen
@@ -51,7 +52,6 @@ const BuySell = ({
 
   // const onSubmit = async (rowData, action) => {
   const onSubmit = async values => {
-    console.log('select data', data)
     setIsLoading(true)
 
     try {
@@ -59,7 +59,7 @@ const BuySell = ({
         assetId,
         direction: action,
         qty: values?.amount,
-        market: data?.market
+        market: market
       }
       console.log('formData', formData)
       let res = await apiTransactToken(formData, token)
@@ -116,9 +116,7 @@ const BuySell = ({
                     {form.getValues('amount') && (
                       <span>
                         You will get{' '}
-                        {Number(form.getValues('amount') / data.price).toFixed(
-                          2
-                        )}{' '}
+                        {Number(form.getValues('amount') / price).toFixed(2)}{' '}
                         tokens
                       </span>
                     )}
@@ -169,9 +167,7 @@ const BuySell = ({
                     {form.getValues('amount') && (
                       <span>
                         You will get{' '}
-                        {Number(form.getValues('amount') * data.price).toFixed(
-                          2
-                        )}{' '}
+                        {Number(form.getValues('amount') * price).toFixed(2)}{' '}
                         SVP
                       </span>
                     )}

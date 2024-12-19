@@ -5,7 +5,7 @@ import { getPlayerPriceChart, getPlayerStats } from '@/actions'
 
 import { createChart } from 'lightweight-charts'
 
-const PlayerPriceChart = ({ sportId, playerId }) => {
+const PlayerPriceChart = ({ sportId, assetId }) => {
   const [chartData, setChartData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -20,7 +20,7 @@ const PlayerPriceChart = ({ sportId, playerId }) => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const res = await getPlayerPriceChart(sportId, playerId)
+        const res = await getPlayerPriceChart(sportId, assetId)
         setChartData(transformData(res.data))
         setLoading(false)
       } catch (err) {
@@ -30,7 +30,7 @@ const PlayerPriceChart = ({ sportId, playerId }) => {
     }
 
     fetchData()
-  }, [sportId, playerId])
+  }, [sportId, assetId])
   const chartContainerRef = useRef(null)
   const chartRef = useRef(null)
   const seriesRef = useRef(null)

@@ -88,7 +88,7 @@ const PlayerRow = ({ player, sport }) => (
   <TableRow className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
-        <Link href={`/player/${sport}/${player?.playerId}`}>
+        <Link href={`/player/${sport}/${player?.playerId}/${player?.assetId}`}>
           <div className="relative h-12 w-12 mr-2 rounded-full overflow-clip group-hover:border-accent border">
             <Image
               src={player.photo || '/player_image.jpg'}
@@ -126,6 +126,14 @@ const PlayerRow = ({ player, sport }) => (
             variant="outline"
             className="!hover:gradient-button !hover:bg-white border-[#099F8C] text-[#099F8C]"
             data={player}
+            name={player?.name}
+            photo={player?.photo}
+            team={player?.team}
+            market={player?.market}
+            position={player?.position}
+            symbol={player?.symbol}
+            price={player.price}
+            assetId={player?.assetId}
           />
         </div>
       </div>
@@ -139,7 +147,7 @@ const PlayerRow = ({ player, sport }) => (
       </div>
     </TableCell>
     <TableCell className="hidden md:table-cell">
-      <Link href={`/player/${sport}/${player?.playerId}`}>
+      <Link href={`/player/${sport}/${player?.playerId}/${player?.assetId}`}>
         <div className="flex items-center h-full">
           <div className="relative h-14 w-14 mr-2 rounded-full overflow-clip group-hover:border-accent border">
             <Image
@@ -162,9 +170,16 @@ const PlayerRow = ({ player, sport }) => (
     </TableCell>
     <TableCell className="hidden md:table-cell lg:max-w-16 md:pr-5">
       <TradeButton
-        className="gradient-button"
         data={player}
+        name={player?.name}
+        photo={player?.photo}
+        team={player?.team}
+        market={player?.market}
+        position={player?.position}
+        symbol={player?.symbol}
+        price={player.price}
         assetId={player?.assetId}
+        className="gradient-button"
       />
     </TableCell>
   </TableRow>

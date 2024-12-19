@@ -25,6 +25,8 @@ export default function Page({ params }) {
   const [statsLoading, setStatsLoading] = useState(true)
   const [statsError, setStatsError] = useState(null)
   const router = useRouter()
+  console.log('data', data)
+  console.log('statsData', statsData)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,7 +92,7 @@ export default function Page({ params }) {
       </div>
       <div className="md:container md:block">
         <Card className="md:p-10 p-5 rounded-none md:rounded-md">
-          <PlayerDetails {...{ data, loading }} />
+          <PlayerDetails {...{ data, loading }} sportId={params.sportId} />
           <Separator className="md:hidden mt-5" />
           {/* <PlayerData
             data={statsData}
@@ -110,7 +112,7 @@ export default function Page({ params }) {
             <PriceChartHeader />
             <PlayerPriceChart
               sportId={params.sportId}
-              playerId={params.playerId}
+              assetId={params.assetId}
             />
           </div>
         </Card>
@@ -174,7 +176,7 @@ function StatTabs({ className, params, statsData, statsError, statsLoading }) {
         />
       </TabsContent>
       <TabsContent value="priceChart" className="p-5 bg-white">
-        <PlayerPriceChart sportId={params.sportId} playerId={params.playerId} />
+        <PlayerPriceChart sportId={params.sportId} assetId={params.assetId} />
       </TabsContent>
     </Tabs>
   )

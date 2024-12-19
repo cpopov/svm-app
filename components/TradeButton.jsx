@@ -21,6 +21,13 @@ import useAuth from '@/lib/useAuth'
 
 function TradeButton({
   data,
+  name,
+  photo,
+  market,
+  team,
+  position,
+  symbol,
+  price,
   assetId,
   ctaText = 'TRADE',
   variant = 'default',
@@ -37,9 +44,6 @@ function TradeButton({
   const { isAuthenticate } = useAuth()
   const [action, setAction] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [balance, setBalance] = useState(0)
-  const [balanceUsdc, setBalanceUsdc] = useState(0)
-  const [refresh, setRefresh] = useState(new Date())
 
   // Reset action when dialog closed
   useEffect(() => {
@@ -57,7 +61,7 @@ function TradeButton({
           <div className="bg-muted rounded-md flex items-center gap-3 p-3">
             <div className="relative h-12 w-12 rounded-full overflow-clip border-accent border-2">
               <Image
-                src={data?.photo || '/player_image.jpg'}
+                src={photo || '/player_image.jpg'}
                 className="mr-2 object-contain"
                 fill
                 sizes="auto"
@@ -66,31 +70,38 @@ function TradeButton({
             </div>
             <div>
               <p className="text-accent-dark font-semibold">
-                {data?.name}
-                <span className="text-black/50">{` (${data?.symbol})`}</span>
+                {name}
+                {symbol ? (
+                  <span className="text-black/50">{` (${symbol})`}</span>
+                ) : null}
               </p>
               <div className="flex text-sm font-medium gap-1 text-black/50">
-                <p>{data?.team}</p>
-                <p>.</p>
-                <p>{data?.position}</p>
+                {team ? (
+                  <>
+                    <p>{team}</p>
+                    <p>.</p>
+                  </>
+                ) : null}
+
+                <p>{position}</p>
               </div>
             </div>
-            <div className="ml-auto">
-              <p className="text-sm uppercase text-right">Price</p>
-              <p className="text-accent font-semibold">${data?.price}</p>
-            </div>
+            {price ? (
+              <div className="ml-auto">
+                <p className="text-sm uppercase text-right">Price</p>
+                <p className="text-accent font-semibold">${price}</p>
+              </div>
+            ) : null}
           </div>
           {action ? (
             <BuySell
               {...{
                 action,
+                market,
+                price,
                 assetId,
-                data,
-                balance,
-                setIsDialogOpen,
-                setRefresh,
                 setAction,
-                balanceUsdc
+                setIsDialogOpen
               }}
             />
           ) : (

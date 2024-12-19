@@ -8,9 +8,10 @@ import { Badge } from './ui/badge'
 import Image from 'next/image'
 import { PlayerStatsChart } from './PlayerStatsChart'
 import { Skeleton } from './ui/skeleton'
+import TradeButton from './TradeButton'
 import { getSportIcon } from '@/lib/constants'
 
-function PlayerDetails({ data, loading = false }) {
+function PlayerDetails({ sportId, data, loading = false }) {
   if (loading) return <Loader />
   if (!data) return <ErrorMessage />
   return (
@@ -91,6 +92,18 @@ function PlayerDetails({ data, loading = false }) {
             </div>
           </div>
         </div>
+        <TradeButton
+          className="w-full"
+          data={data}
+          name={data?.name}
+          photo={data?.photo}
+          team={data?.team}
+          market={data?.sport}
+          position={data?.position}
+          symbol={data?.symbol}
+          price={data.price}
+          assetId={data?.id}
+        />
         {/* <div className="">
           <p className="font-bold text-accent-dark mb-2">
             AVG. GOALS BY SEASON
