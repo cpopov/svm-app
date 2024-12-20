@@ -37,7 +37,7 @@ export const apiGetUserDetails = token =>
     }
   })
 export const apiPostUserDetails = (data, token) =>
-  http.post(`/users/balance`, data, {
+  http.post(`/users/me`, data, {
     headers: {
       Authorization: 'Bearer ' + token,
       'Content-type': 'application/json'

@@ -84,6 +84,14 @@ function UserDropDown() {
             }}>
             Transactions
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            role="button"
+            onClick={() => {
+              router.push('/profile/account')
+            }}>
+            Account
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
