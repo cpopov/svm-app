@@ -17,6 +17,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { apiGetUserDetails, apiSignUpUser } from '@/actions'
+import { setLoginState, setToken } from '@/lib/redux'
 import { toast, useToast } from '../ui/use-toast'
 
 import { Button } from '@/components/ui/button'
@@ -24,8 +26,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { PasswordInput } from '../ui/passwordField'
-import { apiSignUpUser } from '@/actions'
-import { setToken } from '@/lib/redux'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
@@ -43,17 +43,20 @@ const FormSchema = z
     password: z
       .string()
       .min(8, {
-        message: 'Password must be at least 8 characters'
+        message: 'Password must be at least 8 characters long.'
       })
-      .regex(
-        new RegExp(
-          '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
-        ),
-        {
-          message:
-            'Password must be at least 8 characters and contain an uppercase letter, lowercase letter,special character, and number'
-        }
-      ),
+      .refine(val => /[A-Z]/.test(val), {
+        message: 'Password must include at least one uppercase letter.'
+      })
+      .refine(val => /[a-z]/.test(val), {
+        message: 'Password must include at least one lowercase letter.'
+      })
+      .refine(val => /[0-9]/.test(val), {
+        message: 'Password must include at least one number.'
+      })
+      .refine(val => /[#?!@$%^&*-]/.test(val), {
+        message: 'Password must include at least one special character.'
+      }),
     confirmPassword: z.string().min(1, {
       message: 'Required.'
     })
@@ -78,13 +81,32 @@ export function SignUpForm() {
     }
     setIsLoading(true)
     try {
-      const res = await apiSignUpUser(formData)
-      setIsLoading(false)
-      dispatch(setToken(res?.data?.token))
-      toast({
-        title: 'Sign Up success!'
-      })
-      router.push('/')
+      apiSignUpUser(formData)
+        .then(res => {
+          setIsLoading(false)
+          if (res?.data?.token) {
+            toast({
+              title: 'Login success!'
+            })
+            dispatch(setToken(res.data.token))
+            return apiGetUserDetails(res.data.token)
+          } else {
+            toast({
+              title: 'Login failed, no token returned.'
+            })
+            return Promise.reject('No token received')
+          }
+        })
+        .then(res => {
+          dispatch(setLoginState(res.data))
+        })
+        .catch(error => {
+          setIsLoading(false)
+          toast({
+            title: 'An error occurred!',
+            description: error.message || error || 'Please try again.'
+          })
+        })
     } catch (error) {
       setIsLoading(false)
       toast({
@@ -98,7 +120,7 @@ export function SignUpForm() {
   }
 
   return (
-    <Card className="md:mx-auto md:min-w-80 min-w-full">
+    <Card className="md:mx-auto md:min-w-96 min-w-full">
       <CardHeader>
         <CardTitle className="text-2xl text-center">Register account</CardTitle>
         <CardDescription className="text-center">
@@ -180,7 +202,7 @@ export function SignUpForm() {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="max-w-80" />
                     {/* <FormDescription>
                       <Link
                         className="text-primary hover:underline text-base"

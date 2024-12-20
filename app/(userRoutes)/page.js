@@ -1,5 +1,6 @@
 'use client'
 
+import { apiGetUserBalance, getPlayersList } from '@/actions'
 import { useEffect, useState } from 'react'
 
 import { ChevronDown } from 'lucide-react'
@@ -9,7 +10,7 @@ import PaginationComp from '@/components/PaginationComp'
 import PlayerTable from '@/components/PlayerTable'
 import SearchBox from '@/components/SearchBox'
 import SportFilter from '@/components/ui/SportFilter'
-import { getPlayersList } from '@/actions'
+import useAuth from '@/lib/useAuth'
 
 export default function Home() {
   const [players, setPlayers] = useState([])
@@ -25,7 +26,8 @@ export default function Home() {
   const [pageSize, setPageSize] = useState(100) // Default page size
   const [page, setPage] = useState(1) // Default to first page
   const [totalPages, setTotalPages] = useState(1) // Default to 10 page
-
+  const [balance, setBalance] = useState(0)
+  const { token } = useAuth()
   const fetchPlayers = async () => {
     setIsLoading(true)
     try {
@@ -65,6 +67,20 @@ export default function Home() {
     page,
     sport
   ])
+  const fetchBalance = async () => {
+    try {
+      let { data } = await apiGetUserBalance(token)
+      setBalance(data?.balance || 0)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+  useEffect(() => {
+    fetchBalance()
+    return () => {
+      setBalance(0)
+    }
+  }, [])
 
   const handleSort = criteria => {
     if (sortBy === criteria) {
@@ -112,7 +128,15 @@ export default function Home() {
         </div>
       </div>
       <PlayerTable
-        {...{ isLoading, players, sortBy, sortDirection, sport, error }}
+        {...{
+          isLoading,
+          players,
+          sortBy,
+          sortDirection,
+          sport,
+          error,
+          balance
+        }}
         onSort={handleSort}
       />
       <PaginationComp {...{ totalPages, page, setPage }} />

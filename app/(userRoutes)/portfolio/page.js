@@ -1,5 +1,6 @@
 'use client'
 
+import { apiGetUserBalance, getUserPortfolio } from '@/actions'
 import { useEffect, useState } from 'react'
 
 import { ChevronDown } from 'lucide-react'
@@ -9,7 +10,6 @@ import PortfolioBalance from '@/components/PortfolioBalance'
 import PortfolioTable from '@/components/PortfolioTable'
 import SearchBox from '@/components/SearchBox'
 import SportFilter from '@/components/ui/SportFilter'
-import { getUserPortfolio } from '@/actions'
 import useAuth from '@/lib/useAuth'
 import withAuth from '@/lib/withAuth'
 
@@ -25,10 +25,13 @@ function Home() {
   const [selectedLeague, setSelectedLeague] = useState('')
   const [selectedTeam, setSelectedTeam] = useState('')
   const [selectedCountry, setSelectedCountry] = useState('')
+  const [balance, setBalance] = useState(0)
+
   const { token } = useAuth()
 
   const fetchPlayers = async () => {
     try {
+      setIsLoading(true)
       const { data } = await getUserPortfolio(
         {
           league: selectedLeague,
@@ -52,6 +55,7 @@ function Home() {
   }
   useEffect(() => {
     fetchPlayers()
+    return setPlayers()
   }, [
     sortBy,
     sortDirection,
@@ -61,6 +65,18 @@ function Home() {
     selectedTeam,
     selectedCountry
   ])
+  const fetchBalance = async () => {
+    try {
+      let { data } = await apiGetUserBalance(token)
+      setBalance(data?.balance || 0)
+    } catch (error) {}
+  }
+  useEffect(() => {
+    fetchBalance()
+    return () => {
+      setBalance(0)
+    }
+  }, [])
 
   const handleSort = criteria => {
     if (sortBy === criteria) {
@@ -109,7 +125,16 @@ function Home() {
       </div>
       <PortfolioBalance {...{ data, isLoading }} />
       <PortfolioTable
-        {...{ players, isLoading, sport, sortBy, sortDirection, error }}
+        {...{
+          players,
+          isLoading,
+          sport,
+          sortBy,
+          sortDirection,
+          error,
+          balance
+        }}
+        refetch={fetchPlayers}
         onSort={handleSort}
       />
       {/* <PaginationComp {...{ totalPages, page, setPage }} /> */}

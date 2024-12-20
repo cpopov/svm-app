@@ -25,14 +25,20 @@ const PlayerTable = ({
   onSort,
   sortBy,
   sport,
-  sortDirection
+  sortDirection,
+  balance
 }) => {
   if (players.length)
     return (
       <div className="md:container">
         <TableWrapper {...{ onSort, sport, sortBy, sortDirection }}>
           {players.map((player, index) => (
-            <PlayerRow key={index} player={player} sport={sport} />
+            <PlayerRow
+              key={index}
+              player={player}
+              sport={sport}
+              balance={balance}
+            />
           ))}
         </TableWrapper>
       </div>
@@ -90,7 +96,7 @@ const TableWrapper = ({
   </Table>
 )
 
-const PlayerRow = ({ player, sport }) => (
+const PlayerRow = ({ player, sport, balance }) => (
   <TableRow className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
@@ -132,6 +138,7 @@ const PlayerRow = ({ player, sport }) => (
             symbol={player?.symbol}
             price={player.price}
             assetId={player?.id}
+            balance={balance}
           />
         </div>
       </div>
@@ -171,6 +178,7 @@ const PlayerRow = ({ player, sport }) => (
         symbol={player?.symbol}
         price={player.price}
         assetId={player?.id}
+        balance={balance}
         className="gradient-button"
       />
     </TableCell>

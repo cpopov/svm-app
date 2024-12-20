@@ -19,19 +19,27 @@ import TradeButton from './TradeButton'
 
 const PortfolioTable = ({
   isLoading,
+  balance,
   players = [],
   onSort,
   error,
   sport,
   sortBy,
-  sortDirection
+  sortDirection,
+  refetch
 }) => {
   if (players.length)
     return (
       <div className="md:container">
         <TableWrapper {...{ onSort, sortBy, sortDirection }}>
           {players.map((player, index) => (
-            <PlayerRow key={index} player={player} sport={sport} />
+            <PlayerRow
+              key={index}
+              player={player}
+              refetch={refetch}
+              sport={sport}
+              balance={balance}
+            />
           ))}
         </TableWrapper>
       </div>
@@ -84,8 +92,8 @@ const TableWrapper = ({ children, onSort, sortBy, sortDirection }) => (
   </Table>
 )
 
-const PlayerRow = ({ player, sport }) => (
-  <TableRow className="hover:bg-secondary group">
+const PlayerRow = ({ player, sport, refetch, props, balance }) => (
+  <TableRow {...props} className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
         <Link href={`/player/${sport}/${player?.playerId}/${player?.assetId}`}>
@@ -134,6 +142,8 @@ const PlayerRow = ({ player, sport }) => (
             symbol={player?.symbol}
             price={player.price}
             assetId={player?.assetId}
+            onSuccess={refetch}
+            balance={balance}
           />
         </div>
       </div>
@@ -179,6 +189,8 @@ const PlayerRow = ({ player, sport }) => (
         symbol={player?.symbol}
         price={player.price}
         assetId={player?.assetId}
+        onSuccess={refetch}
+        balance={balance}
         className="gradient-button"
       />
     </TableCell>
