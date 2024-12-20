@@ -8,12 +8,12 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { apiGetUserDetails, apiPostUserDetails } from '@/actions'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '../ui/input'
 import { setLoginState } from '@/lib/redux'
 import { toast } from '../ui/use-toast'
 import useAuth from '@/lib/useAuth'
@@ -27,17 +27,15 @@ const FormSchema = z.object({
   displayName: z.string().min(1, { message: 'Display name is required' }),
   streetAddress: z.string().min(1, { message: 'Address is required' }),
   email: z.string().email({ message: 'Invalid email' }),
-  marketingPreferences: z.enum([
-    'none',
-    'thirdPartyPromotions',
-    'promosAndBonuses',
-    'importantAnnouncements',
-    'payoutSummary'
-  ])
+  marketing_email: z.boolean().default(false),
+  marketing_phone: z.boolean().default(false),
+  marketing_push: z.boolean().default(false),
+  marketing_sms: z.boolean().default(false)
 })
 
 export default function AccountForm() {
   const { user, token } = useAuth()
+  console.log('user', user)
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,11 +43,15 @@ export default function AccountForm() {
       displayName: user?.displayName,
       streetAddress: user?.streetAddress,
       email: user?.email,
-      marketingPreferences: 'none'
+      marketing_email: user?.marketing_email || false,
+      marketing_phone: user?.marketing_phone || false,
+      marketing_push: user?.marketing_push || false,
+      marketing_sms: user?.marketing_sms || false
     }
   })
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
+
   const fetchUserData = async () => {
     try {
       let res = await apiGetUserDetails(token)
@@ -58,6 +60,7 @@ export default function AccountForm() {
       console.log(error)
     }
   }
+
   useEffect(() => {
     fetchUserData()
   }, [token])
@@ -84,7 +87,6 @@ export default function AccountForm() {
 
   return (
     <div className="max-w-xl p-4">
-      {/* <h2 className="text-2xl text-center mb-6">Account Information</h2> */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid gap-4">
@@ -163,63 +165,67 @@ export default function AccountForm() {
                 </FormItem>
               )}
             />
+            <p>Marketing Preferences</p>
+            <FormField
+              control={form.control}
+              name="marketing_email"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>Email Notifications</FormLabel>
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
-              name="marketingPreferences"
+              name="marketing_phone"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Marketing Preferences</FormLabel>
+                <FormItem className="flex items-center space-x-3">
                   <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-3">
-                      <FormItem className="flex items-center space-x-3">
-                        <FormControl>
-                          <RadioGroupItem value="thirdPartyPromotions" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Third party promotions
-                        </FormLabel>
-                      </FormItem>
-
-                      <FormItem className="flex items-center space-x-3">
-                        <FormControl>
-                          <RadioGroupItem value="promosAndBonuses" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Promos and bonuses
-                        </FormLabel>
-                      </FormItem>
-
-                      <FormItem className="flex items-center space-x-3">
-                        <FormControl>
-                          <RadioGroupItem value="importantAnnouncements" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Important announcements
-                        </FormLabel>
-                      </FormItem>
-
-                      <FormItem className="flex items-center space-x-3">
-                        <FormControl>
-                          <RadioGroupItem value="payoutSummary" />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          Payout summary
-                        </FormLabel>
-                      </FormItem>
-
-                      <FormItem className="flex items-center space-x-3">
-                        <FormControl>
-                          <RadioGroupItem value="none" />
-                        </FormControl>
-                        <FormLabel className="font-normal">None</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <FormLabel>Phone Notifications</FormLabel>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="marketing_push"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>Push Notifications</FormLabel>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="marketing_sms"
+              render={({ field }) => (
+                <FormItem className="flex items-center space-x-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>SMS Notifications</FormLabel>
                 </FormItem>
               )}
             />
