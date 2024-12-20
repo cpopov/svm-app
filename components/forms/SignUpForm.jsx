@@ -43,17 +43,20 @@ const FormSchema = z
     password: z
       .string()
       .min(8, {
-        message: 'Password must be at least 8 characters'
+        message: 'Password must be at least 8 characters long.'
       })
-      .regex(
-        new RegExp(
-          '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
-        ),
-        {
-          message:
-            'Password must be at least 8 char,uppercase,lowercase,special character, and number'
-        }
-      ),
+      .refine(val => /[A-Z]/.test(val), {
+        message: 'Password must include at least one uppercase letter.'
+      })
+      .refine(val => /[a-z]/.test(val), {
+        message: 'Password must include at least one lowercase letter.'
+      })
+      .refine(val => /[0-9]/.test(val), {
+        message: 'Password must include at least one number.'
+      })
+      .refine(val => /[#?!@$%^&*-]/.test(val), {
+        message: 'Password must include at least one special character.'
+      }),
     confirmPassword: z.string().min(1, {
       message: 'Required.'
     })
@@ -199,7 +202,7 @@ export function SignUpForm() {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="max-w-80" />
                     {/* <FormDescription>
                       <Link
                         className="text-primary hover:underline text-base"
