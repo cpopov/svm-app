@@ -256,12 +256,12 @@ function GeneralDetails({ data }) {
                 </div>
               </div>
             </div>
-            <div>
+            {/* <div>
               <p className="font-bold text-accent-dark mb-2">
                 AVG. GOALS BY SEASON
               </p>
               <PlayerStatsChart />
-            </div>
+            </div> */}
           </div>
         </div>
       </DrawerContent>
