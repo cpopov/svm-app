@@ -12,6 +12,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -202,7 +203,12 @@ export function SignUpForm() {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="max-w-80" />
+                    <FormMessage className="max-w-80">
+                      Password must include at least one uppercase letter.
+                    </FormMessage>
+                    {/* <FormDescription>
+
+                    </FormDescription> */}
                     {/* <FormDescription>
                       <Link
                         className="text-primary hover:underline text-base"
