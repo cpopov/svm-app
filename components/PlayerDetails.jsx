@@ -117,7 +117,7 @@ function PlayerDetails({ playerData }) {
           name={playerData?.name}
           photo={playerData?.photo}
           team={playerData?.team}
-          market={playerData?.sport}
+          market={playerData?.market}
           position={playerData?.position}
           symbol={playerData?.symbol}
           price={playerData.price}

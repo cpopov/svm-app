@@ -56,12 +56,10 @@ export default function Page({ params }) {
         setLoading(true)
         const res = await getPlayerPriceChart(sportId, assetId)
         const response = await apiAssetDetails(sportId, assetId)
-        console.log('response', response)
         setPlayerData(response.data)
         setData(transformData(res.data))
         setLoading(false)
       } catch (err) {
-        console.log('err', err)
         setError(err)
         setLoading(false)
       }
