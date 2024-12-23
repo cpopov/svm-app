@@ -54,7 +54,7 @@ const FormSchema = z
       .refine(val => /[0-9]/.test(val), {
         message: 'Password must include at least one number.'
       })
-      .refine(val => /[#?!@$%^&*-]/.test(val), {
+      .refine(val => /[#?!@$%^&*\-:;,"'`~<>_+=|{}[\]()\\/]/.test(val), {
         message: 'Password must include at least one special character.'
       }),
     confirmPassword: z.string().min(1, {
