@@ -34,6 +34,8 @@ const PlayerPriceChart = ({ data: chartData, loading, error = null }) => {
       // Initial data load
       seriesRef.current.setData(chartData)
       // seriesRef.current.setData(rangeOptions[range])
+      // Adjust zoom to fit the data
+      chartRef.current.timeScale().fitContent()
     }
 
     return () => {
