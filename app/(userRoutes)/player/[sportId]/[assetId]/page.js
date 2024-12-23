@@ -2,7 +2,12 @@
 
 import { ChevronLeft, Info, Router } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getPlayerDetails, getPlayerStats } from '@/actions'
+import {
+  apiAssetDetails,
+  getPlayerDetails,
+  getPlayerPriceChart,
+  getPlayerStats
+} from '@/actions'
 import { useEffect, useState } from 'react'
 
 import { Card } from '@/components/ui/card'
@@ -18,36 +23,13 @@ import { useRouter } from 'next/navigation'
 
 export default function Page({ params }) {
   const [data, setData] = useState(null)
+  const [playerData, setPlayerData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [period, setPeriod] = useState('alltime')
-  const [statsData, setStatsData] = useState(null)
-  const [statsLoading, setStatsLoading] = useState(true)
-  const [statsError, setStatsError] = useState(null)
-  const router = useRouter()
-  console.log('data', data)
-  console.log('statsData', statsData)
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setStatsLoading(true)
-        setStatsError(null)
-        const res = await getPlayerStats(
-          params.sportId,
-          params.playerId,
-          period
-        )
-        setStatsData(res.data)
-      } catch (err) {
-        console.log('err', err)
-        setStatsError('Failed to fetch player stats.')
-      } finally {
-        setStatsLoading(false)
-      }
-    }
 
-    fetchData()
-  }, [params.sportId, params.playerId, period])
+  const router = useRouter()
+
   const periodList = [
     {
       key: 'game',
@@ -62,22 +44,31 @@ export default function Page({ params }) {
     { key: 'alltime', label: 'All' }
   ]
 
+  const transformData = data => {
+    return data.map(item => ({
+      time: Math.floor(new Date(item.time).getTime() / 1000),
+      value: item.price
+    }))
+  }
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (sportId, assetId) => {
       try {
         setLoading(true)
-        setError(null)
-        const { data } = await getPlayerDetails(params.sportId, params.playerId)
-        setData(data)
+        const res = await getPlayerPriceChart(sportId, assetId)
+        const response = await apiAssetDetails(sportId, assetId)
+        console.log('response', response)
+        setPlayerData(response.data)
+        setData(transformData(res.data))
+        setLoading(false)
       } catch (err) {
-        setError('Failed to fetch player details.')
-      } finally {
+        console.log('err', err)
+        setError(err)
         setLoading(false)
       }
     }
 
-    fetchData()
-  }, [params.sportId, params.playerId])
+    fetchData(params.sportId, params.assetId)
+  }, [params.sportId, params.assetId])
   return (
     <main className="flex min-h-screen flex-col md:py-24 py-16">
       <div className="py-5 flex flex-col md:flex-row gap-5 justify-between container">
@@ -92,7 +83,7 @@ export default function Page({ params }) {
       </div>
       <div className="md:container md:block">
         <Card className="md:p-10 p-5 rounded-none md:rounded-md">
-          <PlayerDetails {...{ data, loading }} sportId={params.sportId} />
+          <PlayerDetails playerData={playerData} />
           <Separator className="md:hidden mt-5" />
           {/* <PlayerData
             data={statsData}
@@ -102,22 +93,15 @@ export default function Page({ params }) {
 
           <div className="hidden md:flex mt-5 flex-col gap-8">
             <StatsHeader />
-            <PlayerStats
-              data={statsData}
-              error={statsError}
-              loading={statsLoading}
-            />
+            <PlayerStats {...{ period, playerData }} />
           </div>
           <div className="hidden md:flex flex-col gap-8">
             <PriceChartHeader />
-            <PlayerPriceChart
-              sportId={params.sportId}
-              assetId={params.assetId}
-            />
+            <PlayerPriceChart {...{ data, loading }} />
           </div>
         </Card>
         <StatTabs
-          {...{ params, statsData, statsError, statsLoading }}
+          {...{ playerData, data, period, loading }}
           className="md:hidden w-full my-10"
         />
       </div>
@@ -146,7 +130,7 @@ function ErrorMessage() {
     </main>
   )
 }
-function StatTabs({ className, params, statsData, statsError, statsLoading }) {
+function StatTabs({ className, playerData, data, period, loading }) {
   return (
     <Tabs defaultValue="stats" className={cn('w-[400px]', className)}>
       <TabsList className="grid w-full grid-cols-2">
@@ -168,15 +152,10 @@ function StatTabs({ className, params, statsData, statsError, statsLoading }) {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="stats" className="p-5 bg-white">
-        <PlayerStats
-          variant="non-compact"
-          data={statsData}
-          error={statsError}
-          loading={statsLoading}
-        />
+        <PlayerStats variant="non-compact" {...{ period, playerData }} />
       </TabsContent>
       <TabsContent value="priceChart" className="p-5 bg-white">
-        <PlayerPriceChart sportId={params.sportId} assetId={params.assetId} />
+        <PlayerPriceChart {...{ data, loading }} />
       </TabsContent>
     </Tabs>
   )

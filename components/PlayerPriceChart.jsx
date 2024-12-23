@@ -5,32 +5,7 @@ import { getPlayerPriceChart, getPlayerStats } from '@/actions'
 
 import { createChart } from 'lightweight-charts'
 
-const PlayerPriceChart = ({ sportId, assetId }) => {
-  const [chartData, setChartData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  const transformData = data => {
-    return data.map(item => ({
-      time: Math.floor(new Date(item.time).getTime() / 1000),
-      value: item.price
-    }))
-  }
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const res = await getPlayerPriceChart(sportId, assetId)
-        setChartData(transformData(res.data))
-        setLoading(false)
-      } catch (err) {
-        setError(err)
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [sportId, assetId])
+const PlayerPriceChart = ({ data: chartData, loading, error = null }) => {
   const chartContainerRef = useRef(null)
   const chartRef = useRef(null)
   const seriesRef = useRef(null)
