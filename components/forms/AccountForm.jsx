@@ -23,9 +23,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const FormSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
+  fullName: z.string().min(1, { message: 'Full Name is required' }),
   displayName: z.string().min(1, { message: 'Display name is required' }),
-  streetAddress: z.string().min(1, { message: 'Address is required' }),
+  streetAddress: z.string().optional(),
   email: z.string().email({ message: 'Invalid email' }),
   marketing_email: z.boolean().default(false),
   marketing_phone: z.boolean().default(false),
@@ -35,11 +35,10 @@ const FormSchema = z.object({
 
 export default function AccountForm() {
   const { user, token } = useAuth()
-  console.log('user', user)
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: user?.fullName,
+      fullName: user?.fullName,
       displayName: user?.displayName,
       streetAddress: user?.streetAddress,
       email: user?.email,
@@ -92,13 +91,13 @@ export default function AccountForm() {
           <div className="grid gap-4">
             <FormField
               control={form.control}
-              name="name"
+              name="fullName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="name">Name</FormLabel>
+                  <FormLabel htmlFor="fullName">Full Name</FormLabel>
                   <FormControl>
                     <Input
-                      id="name"
+                      id="fullName"
                       type="text"
                       placeholder="John Doe"
                       {...field}

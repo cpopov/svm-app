@@ -36,6 +36,8 @@ export const apiGetUserDetails = token =>
       'Content-type': 'application/json'
     }
   })
+export const apiAssetDetails = (sports, assetId) =>
+  http.get(`market/${sports}/${assetId}`)
 export const apiPostUserDetails = (data, token) =>
   http.post(`/users/me`, data, {
     headers: {

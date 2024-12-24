@@ -2,18 +2,37 @@
 
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
 import { Info, MoveRight, X } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Badge } from './ui/badge'
 import Image from 'next/image'
 import { PlayerStatsChart } from './PlayerStatsChart'
 import { Skeleton } from './ui/skeleton'
 import TradeButton from './TradeButton'
+import { getPlayerDetails } from '@/actions'
 import { getSportIcon } from '@/lib/constants'
 
-function PlayerDetails({ sportId, data, loading = false }) {
+function PlayerDetails({ playerData }) {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  useEffect(() => {
+    const fetchData = async (sportId, playerId) => {
+      try {
+        setLoading(true)
+        setError(null)
+        const { data } = await getPlayerDetails(sportId, playerId)
+        setData(data)
+      } catch (err) {
+        setError('Failed to fetch player details.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    if (playerData) fetchData(playerData?.market, playerData?.playerId)
+  }, [playerData])
   if (loading) return <Loader />
-  if (!data) return <ErrorMessage />
+  if (!data || error) return <ErrorMessage />
   return (
     <div className="md:grid flex flex-col md:grid-cols-5 gap-5">
       <div className="md:col-span-2 flex w-full md:flex-row md:justify-normal justify-between flex-row-reverse gap-4">
@@ -94,15 +113,15 @@ function PlayerDetails({ sportId, data, loading = false }) {
         </div>
         <TradeButton
           className="w-full"
-          data={data}
-          name={data?.name}
-          photo={data?.photo}
-          team={data?.team}
-          market={data?.sport}
-          position={data?.position}
-          symbol={data?.symbol}
-          price={data.price}
-          assetId={data?.id}
+          data={playerData}
+          name={playerData?.name}
+          photo={playerData?.photo}
+          team={playerData?.team}
+          market={playerData?.market}
+          position={playerData?.position}
+          symbol={playerData?.symbol}
+          price={playerData.price}
+          assetId={playerData?.id}
         />
         {/* <div className="">
           <p className="font-bold text-accent-dark mb-2">
@@ -237,12 +256,12 @@ function GeneralDetails({ data }) {
                 </div>
               </div>
             </div>
-            <div>
+            {/* <div>
               <p className="font-bold text-accent-dark mb-2">
                 AVG. GOALS BY SEASON
               </p>
               <PlayerStatsChart />
-            </div>
+            </div> */}
           </div>
         </div>
       </DrawerContent>

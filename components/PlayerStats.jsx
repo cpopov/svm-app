@@ -1,14 +1,36 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { Skeleton } from './ui/skeleton'
 import { cn } from '@/lib/utils'
+import { getPlayerStats } from '@/actions'
 
 export default function PlayerStats({
-  data,
-  error,
-  loading,
+  playerData,
+  period,
   variant = 'compact'
 }) {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  useEffect(() => {
+    const fetchData = async (sportId, playerId) => {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await getPlayerStats(sportId, playerId, period)
+        setData(res.data)
+      } catch (err) {
+        console.log('err', err)
+        setError('Failed to fetch player stats.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (playerData) fetchData(playerData?.market, playerData?.playerId)
+  }, [playerData, period])
   if (loading) return <Loader />
   if (variant === 'compact')
     return (

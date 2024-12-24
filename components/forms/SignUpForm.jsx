@@ -12,6 +12,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -54,7 +55,7 @@ const FormSchema = z
       .refine(val => /[0-9]/.test(val), {
         message: 'Password must include at least one number.'
       })
-      .refine(val => /[#?!@$%^&*-]/.test(val), {
+      .refine(val => /[#?!@$%^&*\-:;,"'`~<>_+=|{}[\]()\\/]/.test(val), {
         message: 'Password must include at least one special character.'
       }),
     confirmPassword: z.string().min(1, {
@@ -202,7 +203,12 @@ export function SignUpForm() {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="max-w-80" />
+                    <FormMessage className="max-w-80">
+                      Password must include at least one uppercase letter.
+                    </FormMessage>
+                    {/* <FormDescription>
+
+                    </FormDescription> */}
                     {/* <FormDescription>
                       <Link
                         className="text-primary hover:underline text-base"
