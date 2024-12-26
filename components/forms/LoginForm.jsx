@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { PasswordInput } from '../ui/passwordField'
+import { RotateCw } from 'lucide-react'
 import { toast } from '../ui/use-toast'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -147,7 +148,11 @@ export function LoginForm() {
                 )}
               />
               <Button type="submit" className="w-full bg-[#057E6E]">
-                Sign In
+                {isLoading ? (
+                  <RotateCw size={16} className="animate-spin" />
+                ) : (
+                  'Sign In'
+                )}
               </Button>
             </div>
           </form>
