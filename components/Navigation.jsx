@@ -92,6 +92,14 @@ function UserDropDown() {
             }}>
             Account
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            role="button"
+            onClick={() => {
+              router.push('/profile/settings')
+            }}>
+            Settings
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem

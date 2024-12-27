@@ -96,7 +96,7 @@ const PlayerRow = ({ player, sport, refetch, props, balance }) => (
   <TableRow {...props} className="hover:bg-secondary group">
     <TableCell colSpan={4} className="md:hidden">
       <div className="flex items-center h-full">
-        <Link href={`/player/${sport}/${player?.playerId}/${player?.assetId}`}>
+        <Link href={`/player/${sport}/${player?.assetId}`}>
           <div className="relative h-12 w-12 mr-2 rounded-full overflow-clip group-hover:border-accent border">
             <Image
               src={player.photo || '/player_image.jpg'}
@@ -157,7 +157,7 @@ const PlayerRow = ({ player, sport, refetch, props, balance }) => (
       </div>
     </TableCell>
     <TableCell className="hidden md:table-cell">
-      <Link href={`/player/${sport}/${player?.playerId}/${player?.assetId}`}>
+      <Link href={`/player/${sport}/${player?.assetId}`}>
         <div className="flex items-center h-full">
           <div className="relative h-14 w-14 mr-2 rounded-full overflow-clip group-hover:border-accent border">
             <Image

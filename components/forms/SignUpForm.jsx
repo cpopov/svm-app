@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Loader, RotateCw } from 'lucide-react'
 import { apiGetUserDetails, apiSignUpUser } from '@/actions'
 import { setLoginState, setToken } from '@/lib/redux'
 import { toast, useToast } from '../ui/use-toast'
@@ -105,7 +106,8 @@ export function SignUpForm() {
           setIsLoading(false)
           toast({
             title: 'An error occurred!',
-            description: error.message || error || 'Please try again.'
+            description:
+              error?.response?.data?.error || error || 'Please try again.'
           })
         })
     } catch (error) {
@@ -238,7 +240,11 @@ export function SignUpForm() {
               />
 
               <Button type="submit" className="w-full bg-[#057E6E]">
-                Register Account
+                {isLoading ? (
+                  <RotateCw size={16} className="animate-spin" />
+                ) : (
+                  'Register Account'
+                )}
               </Button>
             </div>
           </form>
