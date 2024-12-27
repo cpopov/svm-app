@@ -70,6 +70,7 @@ export function LoginForm() {
         .catch(error => {
           setIsLoading(false)
           toast({
+            variant: 'destructive',
             title: 'An error occurred!',
             description: error.message || error || 'Please try again.'
           })

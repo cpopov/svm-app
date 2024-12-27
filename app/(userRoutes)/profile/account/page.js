@@ -1,5 +1,3 @@
-'use client'
-
 import AccountForm from '@/components/forms/AccountForm'
 import React from 'react'
 
