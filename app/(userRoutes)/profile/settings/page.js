@@ -24,7 +24,6 @@ import { useDispatch } from 'react-redux'
 
 function Account() {
   const { token } = useAuth()
-  console.log('token', token)
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
   const handleClick = async () => {

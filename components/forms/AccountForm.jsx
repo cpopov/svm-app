@@ -40,7 +40,7 @@ export default function AccountForm() {
     defaultValues: {
       fullName: user?.fullName,
       displayName: user?.displayName,
-      streetAddress: user?.streetAddress,
+      streetAddress: user?.streetAddress || '',
       email: user?.email,
       marketing_email: user?.marketing_email || false,
       marketing_phone: user?.marketing_phone || false,

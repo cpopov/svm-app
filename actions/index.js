@@ -8,12 +8,16 @@ const http3 = instanceThree()
 export const apiSignUpUser = data => http.post(`/users/register`, data)
 export const apiLogin = data => http.post(`/users/login`, data)
 export const apiDeleteUser = token =>
-  http.post(`/users/delete`, {
-    headers: {
-      Authorization: 'Bearer ' + token,
-      'Content-type': 'application/json'
+  http.post(
+    `/users/delete`,
+    {},
+    {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json'
+      }
     }
-  })
+  )
 export const apiTransactToken = (data, token) =>
   http.post(`/trades`, data, {
     headers: {
